@@ -1,0 +1,18 @@
+# integrations/cover_groups.yaml
+# VELUX cover group — enables "All Blinds" control from the dashboard
+# and automations.
+#
+# To disable: remove this file and remove the cover: !include line
+# from configuration.yaml.
+#
+# Replace cover entity IDs with your actual VELUX entity IDs.
+# Find them in Settings → Developer Tools → States (filter by "cover.")
+
+- platform: group
+  name: All VELUX Covers
+  unique_id: all_velux_covers
+  entities:
+    - cover.velux_living_room     # replace with real entity ID
+    - cover.velux_bedroom
+    - cover.velux_kitchen
+    - cover.velux_office

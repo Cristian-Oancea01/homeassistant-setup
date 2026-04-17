@@ -1,0 +1,84 @@
+# automations/climate.yaml
+# AC automations: weekday morning schedule, window protection, good night routine.
+
+- alias: ac_schedule_weekday_morning
+  id: ac_schedule_weekday_morning
+  description: Pre-condition bedroom AC on weekday mornings at 06:30
+  trigger:
+    - platform: time
+      at: "06:30:00"
+  condition:
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.lg_ac    # replace with your bedroom AC entity
+      data:
+        temperature: 22
+        hvac_mode: >
+          {% if states('sensor.outdoor_temperature') | float(default=15) > 20 %}
+            cool
+          {% else %}
+            heat
+          {% endif %}
+  mode: single
+
+- alias: ac_off_when_window_open
+  id: ac_off_when_window_open
+  description: Turn off Samsung AC if living room window left open for 5+ minutes
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_window    # replace with your window sensor
+      to: "on"
+      for:
+        minutes: 5
+  condition:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: climate.samsung_ac
+          state: "off"
+  action:
+    - service: climate.turn_off
+      target:
+        entity_id: climate.samsung_ac
+  mode: single
+
+- alias: good_night_routine
+  id: good_night_routine
+  description: Lights off, blinds closed, AC to night temperature at 23:00
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  action:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.night
+    - service: cover.close_cover
+      target:
+        entity_id:
+          - cover.velux_living_room
+          - cover.velux_bedroom
+          - cover.velux_kitchen
+          - cover.velux_office
+    - service: climate.set_temperature
+      target:
+        entity_id:
+          - climate.samsung_ac
+          - climate.lg_ac
+          - climate.vivax_ac
+      data:
+        temperature: 20
+        hvac_mode: >
+          {% if states('sensor.outdoor_temperature') | float(default=15) > 18 %}
+            cool
+          {% else %}
+            "off"
+          {% endif %}
+  mode: single

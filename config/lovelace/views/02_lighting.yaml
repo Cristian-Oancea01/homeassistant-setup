@@ -1,0 +1,81 @@
+# lovelace/views/02_lighting.yaml
+# Lighting view — all lights grouped by room.
+# Replace entity IDs with your actual light.* entities.
+
+title: Lighting
+path: lighting
+icon: mdi:lightbulb
+cards:
+
+  # ── Living Room ────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Living Room
+    subtitle: Philips Hue + Govee
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.living_room              # replace — main Hue group
+        name: Living Room
+        show_brightness_control: true
+        show_color_temp_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_strip        # replace — Govee LED strip
+        name: LED Strip
+        show_brightness_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+  # ── Bedroom ───────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Bedroom
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.bedroom                  # replace
+        name: Bedroom
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.bedroom_nightstand       # replace
+        name: Nightstand
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+  # ── Kitchen ───────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Kitchen
+    subtitle: IKEA DIRIGERA
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.kitchen                  # replace
+        name: Kitchen
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.kitchen_counter          # replace — IKEA under-cabinet
+        name: Counter
+        show_brightness_control: true
+        collapsible_controls: true
+
+  # ── All Lights ─────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: All Lights
+
+  - type: custom:mushroom-entity-card
+    entity: light.all_lights                   # replace — create a light group helper
+    name: All Lights
+    icon: mdi:lightbulb-group
+    tap_action:
+      action: toggle

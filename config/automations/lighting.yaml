@@ -1,0 +1,47 @@
+# automations/lighting.yaml
+# Motion-activated lighting and presence-based welcome home.
+
+- alias: motion_lights_living_room
+  id: motion_lights_living_room
+  description: Turn on living room lights on motion when lux below threshold
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.hue_motion_living_room    # replace with your Hue motion sensor
+      to: "on"
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.hue_motion_living_room_illuminance   # replace with your Hue lux sensor
+      below: 50
+  action:
+    - service: light.turn_on
+      target:
+        entity_id: light.living_room
+      data:
+        brightness_pct: 60
+        color_temp_kelvin: 3500
+    - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.hue_motion_living_room
+          to: "off"
+          for:
+            minutes: 5
+    - service: light.turn_off
+      target:
+        entity_id: light.living_room
+  mode: restart
+
+- alias: presence_welcome_home
+  id: presence_welcome_home
+  description: Activate evening scene when arriving home after dark
+  trigger:
+    - platform: state
+      entity_id: group.all_people
+      to: "home"
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.evening
+  mode: single

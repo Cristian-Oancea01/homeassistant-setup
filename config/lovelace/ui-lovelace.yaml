@@ -1,0 +1,21 @@
+# lovelace/ui-lovelace.yaml
+# Main Lovelace dashboard configuration.
+#
+# How to apply:
+#   1. In HA: Settings → Dashboards → Add Dashboard → name "Home"
+#   2. Open dashboard → ⋮ → Edit Dashboard → ⋮ → Raw configuration editor
+#   3. Paste the contents of this file
+#   4. Replace placeholder entity IDs with your actual entity IDs
+#      (search for "replace" in this file for all placeholders)
+#
+# Views are split into separate files in lovelace/views/ for maintainability.
+# This file assembles them all.
+
+title: Home
+views:
+  - !include views/01_home.yaml
+  - !include views/02_lighting.yaml
+  - !include views/03_climate.yaml
+  - !include views/04_ventilation.yaml
+  - !include views/05_blinds.yaml
+  - !include views/06_settings.yaml

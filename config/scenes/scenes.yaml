@@ -1,0 +1,89 @@
+# scenes/scenes.yaml
+# Scenes for the dashboard quick-launch tiles.
+#
+# These are template scenes. After importing to HA you can refine them
+# by recording actual device states via Settings → Scenes → Edit → Record.
+#
+# Replace entity IDs with your actual light, climate, and cover entities.
+
+- name: Morning
+  id: scene_morning
+  entities:
+    light.all_lights:
+      state: on
+      brightness_pct: 80
+      color_temp_kelvin: 3500
+    climate.samsung_ac:
+      state: heat_cool
+      temperature: 21
+    climate.lg_ac:
+      state: heat_cool
+      temperature: 21
+    cover.velux_living_room:
+      state: open
+    cover.velux_bedroom:
+      state: open
+
+- name: Evening
+  id: scene_evening
+  entities:
+    light.living_room:
+      state: on
+      brightness_pct: 40
+      color_temp_kelvin: 2700
+    light.bedroom:
+      state: on
+      brightness_pct: 30
+      color_temp_kelvin: 2700
+    climate.samsung_ac:
+      state: heat_cool
+      temperature: 22
+    cover.velux_living_room:
+      state: closed
+    cover.velux_bedroom:
+      state: closed
+
+- name: Movie
+  id: scene_movie
+  entities:
+    light.living_room:
+      state: on
+      brightness_pct: 10
+      color_temp_kelvin: 2200
+    climate.samsung_ac:
+      state: cool
+      temperature: 22
+    cover.velux_living_room:
+      state: closed
+
+- name: Night
+  id: scene_night
+  entities:
+    light.all_lights:
+      state: off
+    climate.samsung_ac:
+      state: "off"
+    climate.lg_ac:
+      state: "off"
+    climate.vivax_ac:
+      state: "off"
+
+- name: Away
+  id: scene_away
+  entities:
+    light.all_lights:
+      state: off
+    climate.samsung_ac:
+      state: "off"
+    climate.lg_ac:
+      state: "off"
+    climate.vivax_ac:
+      state: "off"
+    cover.velux_living_room:
+      position: 50
+    cover.velux_bedroom:
+      position: 50
+    cover.velux_kitchen:
+      position: 50
+    cover.velux_office:
+      position: 50

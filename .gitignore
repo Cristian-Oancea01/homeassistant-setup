@@ -1,0 +1,33 @@
+# .gitignore
+# ============================================================
+# Files that must NEVER be committed to git.
+# ============================================================
+
+# Secrets — contain passwords, API keys, tokens
+.env
+config/secrets.yaml
+config/google_credentials.json
+
+# Home Assistant runtime files
+config/.storage/
+config/home-assistant.log
+config/home-assistant.log.*
+config/.cloud/
+config/deps/
+config/__pycache__/
+config/**/__pycache__/
+config/**/*.pyc
+
+# Custom components — installed by HACS at runtime, not stored in git.
+# Users install these via HACS after deploying.
+config/custom_components/
+
+# HA database and backups
+config/home-assistant_v2.db
+config/home-assistant_v2.db-shm
+config/home-assistant_v2.db-wal
+config/*.tar.gz
+
+# OS
+.DS_Store
+Thumbs.db

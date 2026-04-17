@@ -1,0 +1,147 @@
+# lovelace/views/04_ventilation.yaml
+# Ventilation view — Konfortvent HRV full control card.
+# Replace entity IDs with your actual Konfortvent entities.
+# Find them in Settings → Developer Tools → States (filter by "konfortvent").
+
+title: Ventilation
+path: ventilation
+icon: mdi:air-filter
+cards:
+
+  - type: custom:mushroom-title-card
+    title: Konfortvent HRV
+    subtitle: Heat Recovery Ventilation
+
+  # ── Fan speed control ──────────────────────────────────────
+  - type: custom:mushroom-fan-card
+    entity: fan.konfortvent                  # replace
+    name: Konfortvent
+    show_percentage_control: true
+    show_oscillate_control: false
+    icon_animation: true
+
+  # ── Mode selector buttons ──────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Mode
+
+  - type: grid
+    columns: 4
+    square: false
+    cards:
+      - type: custom:button-card
+        name: Eco
+        icon: mdi:leaf
+        tap_action:
+          action: call-service
+          service: select.select_option
+          service_data:
+            entity_id: select.konfortvent_mode    # replace
+            option: eco
+        styles:
+          card:
+            - border-radius: 12px
+            - background: >
+                [[[
+                  return states['select.konfortvent_mode'].state === 'eco'
+                    ? 'var(--primary-color)'
+                    : 'var(--card-background-color)';
+                ]]]
+
+      - type: custom:button-card
+        name: Normal
+        icon: mdi:fan
+        tap_action:
+          action: call-service
+          service: select.select_option
+          service_data:
+            entity_id: select.konfortvent_mode
+            option: normal
+        styles:
+          card:
+            - border-radius: 12px
+            - background: >
+                [[[
+                  return states['select.konfortvent_mode'].state === 'normal'
+                    ? 'var(--primary-color)'
+                    : 'var(--card-background-color)';
+                ]]]
+
+      - type: custom:button-card
+        name: Boost
+        icon: mdi:fan-plus
+        tap_action:
+          action: call-service
+          service: select.select_option
+          service_data:
+            entity_id: select.konfortvent_mode
+            option: boost
+        styles:
+          card:
+            - border-radius: 12px
+            - background: >
+                [[[
+                  return states['select.konfortvent_mode'].state === 'boost'
+                    ? '#f5576c'
+                    : 'var(--card-background-color)';
+                ]]]
+
+      - type: custom:button-card
+        name: Away
+        icon: mdi:home-export-outline
+        tap_action:
+          action: call-service
+          service: select.select_option
+          service_data:
+            entity_id: select.konfortvent_mode
+            option: away
+        styles:
+          card:
+            - border-radius: 12px
+            - background: >
+                [[[
+                  return states['select.konfortvent_mode'].state === 'away'
+                    ? '#f6d365'
+                    : 'var(--card-background-color)';
+                ]]]
+
+  # ── Sensor readings ────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Sensors
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.konfortvent_temperature_supply   # replace
+        name: Supply
+        icon: mdi:thermometer-chevron-up
+        icon_color: orange
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.konfortvent_temperature_extract  # replace
+        name: Extract
+        icon: mdi:thermometer-chevron-down
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.konfortvent_humidity             # replace
+        name: Humidity
+        icon: mdi:water-percent
+        icon_color: teal
+
+  # ── Temperature history ────────────────────────────────────
+  - type: custom:mini-graph-card
+    name: Temperature History
+    entities:
+      - entity: sensor.konfortvent_temperature_supply   # replace
+        name: Supply air
+        color: "#f6a623"
+      - entity: sensor.konfortvent_temperature_extract  # replace
+        name: Extract air
+        color: "#4a90d9"
+    hours_to_show: 12
+    points_per_hour: 4
+    line_width: 2
+    smoothing: true
+    show:
+      labels: true
+      legend: true

@@ -1,0 +1,148 @@
+# lovelace/views/01_home.yaml
+# Home Overview view — status chips, scene tiles, active status card.
+
+title: Home
+path: home
+icon: mdi:home
+cards:
+
+  # ── Status chips row ───────────────────────────────────────
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: sensor.outdoor_temperature    # replace with your outdoor temp sensor
+        icon: mdi:thermometer
+      - type: template
+        icon: mdi:lightbulb
+        content: >
+          {{ states.light | selectattr('state','eq','on') | list | count }} on
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/lighting
+      - type: template
+        icon: mdi:air-conditioner
+        content: >
+          {{ states.climate | selectattr('state','ne','off') | list | count }} active
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/climate
+      - type: entity
+        entity: fan.konfortvent              # replace with your Konfortvent fan entity
+        icon: mdi:air-filter
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/ventilation
+      - type: template
+        icon: mdi:blinds
+        content: >
+          {{ states.cover | selectattr('state','eq','open') | list | count }} open
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/blinds
+
+  # ── Scene quick-launch ─────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Scenes
+
+  - type: grid
+    columns: 4
+    square: true
+    cards:
+      - type: custom:button-card
+        name: Morning
+        icon: mdi:weather-sunrise
+        tap_action:
+          action: call-service
+          service: scene.turn_on
+          service_data:
+            entity_id: scene.morning
+        styles:
+          card:
+            - background: "linear-gradient(135deg, #f6d365, #fda085)"
+            - border-radius: 16px
+          icon:
+            - color: white
+          name:
+            - color: white
+
+      - type: custom:button-card
+        name: Movie
+        icon: mdi:movie-open
+        tap_action:
+          action: call-service
+          service: scene.turn_on
+          service_data:
+            entity_id: scene.movie
+        styles:
+          card:
+            - background: "linear-gradient(135deg, #2c3e50, #4ca1af)"
+            - border-radius: 16px
+          icon:
+            - color: white
+          name:
+            - color: white
+
+      - type: custom:button-card
+        name: Evening
+        icon: mdi:weather-sunset
+        tap_action:
+          action: call-service
+          service: scene.turn_on
+          service_data:
+            entity_id: scene.evening
+        styles:
+          card:
+            - background: "linear-gradient(135deg, #f093fb, #f5576c)"
+            - border-radius: 16px
+          icon:
+            - color: white
+          name:
+            - color: white
+
+      - type: custom:button-card
+        name: Night
+        icon: mdi:weather-night
+        tap_action:
+          action: call-service
+          service: scene.turn_on
+          service_data:
+            entity_id: scene.night
+        styles:
+          card:
+            - background: "linear-gradient(135deg, #1a1a2e, #16213e)"
+            - border-radius: 16px
+          icon:
+            - color: white
+          name:
+            - color: white
+
+  # ── Konfortvent status card ────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Status
+
+  - type: custom:mushroom-template-card
+    primary: "{{ states('sensor.konfortvent_temperature_supply') }}°C supply air"
+    secondary: "Konfortvent — {{ states('select.konfortvent_mode') }} mode"
+    icon: mdi:air-filter
+    icon_color: >
+      {% if is_state('fan.konfortvent', 'on') %}blue{% else %}grey{% endif %}
+    tap_action:
+      action: navigate
+      navigation_path: /lovelace/ventilation
+
+  # ── Good Night button ──────────────────────────────────────
+  - type: custom:button-card
+    name: Good Night
+    icon: mdi:power-sleep
+    tap_action:
+      action: call-service
+      service: script.good_night
+    styles:
+      card:
+        - background: "linear-gradient(135deg, #0f0c29, #302b63)"
+        - border-radius: 16px
+        - margin-top: 8px
+      icon:
+        - color: white
+      name:
+        - color: white

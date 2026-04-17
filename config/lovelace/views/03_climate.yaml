@@ -1,0 +1,127 @@
+# lovelace/views/03_climate.yaml
+# Climate view — Samsung, LG, and Vivax AC units + temperature history graph.
+
+title: Climate
+path: climate
+icon: mdi:thermostat
+cards:
+
+  - type: custom:mushroom-title-card
+    title: Air Conditioning
+
+  # ── Samsung AC ─────────────────────────────────────────────
+  - type: custom:simple-thermostat
+    entity: climate.samsung_ac               # replace with your Samsung AC entity
+    name: Samsung AC
+    header:
+      toggle:
+        entity: climate.samsung_ac
+    sensors:
+      - entity: sensor.living_room_temperature   # replace or remove if unavailable
+        name: Room temp
+    control:
+      hvac:
+        heat:
+          name: Heat
+        cool:
+          name: Cool
+        heat_cool:
+          name: Auto
+        fan_only:
+          name: Fan
+        dry:
+          name: Dry
+      fan:
+        auto:
+          name: Auto
+        low:
+          name: Low
+        medium:
+          name: Med
+        high:
+          name: High
+    step_size: 0.5
+
+  # ── LG AC ──────────────────────────────────────────────────
+  - type: custom:simple-thermostat
+    entity: climate.lg_ac                    # replace
+    name: LG AC
+    header:
+      toggle:
+        entity: climate.lg_ac
+    sensors:
+      - entity: sensor.bedroom_temperature   # replace or remove if unavailable
+        name: Room temp
+    control:
+      hvac:
+        heat:
+          name: Heat
+        cool:
+          name: Cool
+        heat_cool:
+          name: Auto
+        fan_only:
+          name: Fan
+        dry:
+          name: Dry
+      fan:
+        auto:
+          name: Auto
+        low:
+          name: Low
+        medium:
+          name: Med
+        high:
+          name: High
+    step_size: 0.5
+
+  # ── Vivax AC ───────────────────────────────────────────────
+  - type: custom:simple-thermostat
+    entity: climate.vivax_ac                 # replace
+    name: Vivax AC
+    header:
+      toggle:
+        entity: climate.vivax_ac
+    control:
+      hvac:
+        heat:
+          name: Heat
+        cool:
+          name: Cool
+        heat_cool:
+          name: Auto
+        fan_only:
+          name: Fan
+        dry:
+          name: Dry
+      fan:
+        auto:
+          name: Auto
+        low:
+          name: Low
+        medium:
+          name: Med
+        high:
+          name: High
+    step_size: 0.5
+
+  # ── Temperature History ────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Temperature History
+
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.living_room_temperature   # replace or remove
+        name: Living Room
+      - entity: sensor.bedroom_temperature       # replace or remove
+        name: Bedroom
+      - entity: sensor.outdoor_temperature       # replace with your outdoor sensor
+        name: Outdoor
+    hours_to_show: 24
+    points_per_hour: 2
+    line_width: 2
+    smoothing: true
+    show:
+      labels: true
+      points: false
+      legend: true

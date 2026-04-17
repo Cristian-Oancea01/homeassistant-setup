@@ -1,0 +1,33 @@
+# scripts/good_night.yaml
+# Good Night script — callable from dashboard button or voice command.
+# Triggers the same logic as the nightly automation but on demand.
+
+good_night:
+  alias: Good Night
+  icon: mdi:weather-night
+  sequence:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.night
+    - service: cover.close_cover
+      target:
+        entity_id:
+          - cover.velux_living_room
+          - cover.velux_bedroom
+          - cover.velux_kitchen
+          - cover.velux_office
+    - service: climate.set_temperature
+      target:
+        entity_id:
+          - climate.samsung_ac
+          - climate.lg_ac
+          - climate.vivax_ac
+      data:
+        temperature: 20
+        hvac_mode: >
+          {% if states('sensor.outdoor_temperature') | float(default=15) > 18 %}
+            cool
+          {% else %}
+            "off"
+          {% endif %}
+  mode: single
