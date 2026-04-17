@@ -29,11 +29,6 @@ cards:
         icon: mdi:sun-thermometer
 
       - type: custom:mushroom-entity-card
-        entity: automation.motion_lights_living_room
-        name: Motion Lights
-        icon: mdi:motion-sensor
-
-      - type: custom:mushroom-entity-card
         entity: automation.ac_schedule_weekday_morning
         name: AC Morning Schedule
         icon: mdi:clock-outline
@@ -44,53 +39,21 @@ cards:
         icon: mdi:window-open
 
       - type: custom:mushroom-entity-card
-        entity: automation.konfortvent_boost_on_humidity
-        name: Ventilation Humidity
-        icon: mdi:air-filter
-
-      - type: custom:mushroom-entity-card
         entity: automation.konfortvent_away_mode
         name: Ventilation Away
         icon: mdi:home-export-outline
 
       - type: custom:mushroom-entity-card
-        entity: automation.presence_welcome_home
-        name: Welcome Home
-        icon: mdi:home-account
+        entity: automation.konfortvent_return_home
+        name: Ventilation Return
+        icon: mdi:home-import-outline
 
       - type: custom:mushroom-entity-card
         entity: automation.good_night_routine
-        name: Good Night Auto
+        name: Good Night
         icon: mdi:power-sleep
 
-  # ── Helpers ────────────────────────────────────────────────
-  - type: custom:mushroom-title-card
-    title: Helpers
-
-  - type: custom:mushroom-entity-card
-    entity: input_boolean.vacation_mode
-    name: Vacation Mode
-    icon: mdi:airplane
-    tap_action:
-      action: toggle
-
-  # ── System Health ──────────────────────────────────────────
-  - type: custom:mushroom-title-card
-    title: System
-
-  - type: horizontal-stack
-    cards:
       - type: custom:mushroom-entity-card
-        entity: sensor.processor_use_percent    # requires System Monitor integration
-        name: CPU
-        icon: mdi:cpu-64-bit
-
-      - type: custom:mushroom-entity-card
-        entity: sensor.memory_use_percent       # requires System Monitor integration
-        name: Memory
-        icon: mdi:memory
-
-      - type: custom:mushroom-entity-card
-        entity: sensor.disk_use_percent_config  # requires System Monitor integration
-        name: Disk
-        icon: mdi:harddisk
+        entity: automation.la_apus_aprinde_lumina_la_insula
+        name: Sunset Island Light
+        icon: mdi:weather-sunset

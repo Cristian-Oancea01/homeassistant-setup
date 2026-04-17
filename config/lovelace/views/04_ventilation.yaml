@@ -1,7 +1,5 @@
 # lovelace/views/04_ventilation.yaml
-# Ventilation view — Konfortvent HRV full control card.
-# Replace entity IDs with your actual Konfortvent entities.
-# Find them in Settings → Developer Tools → States (filter by "konfortvent").
+# Ventilation view — Komfovent HRV full control card.
 
 title: Ventilation
 path: ventilation
@@ -9,44 +7,27 @@ icon: mdi:air-filter
 cards:
 
   - type: custom:mushroom-title-card
-    title: Konfortvent HRV
+    title: Komfovent HRV
     subtitle: Heat Recovery Ventilation
 
-  # ── Fan speed control ──────────────────────────────────────
-  - type: custom:mushroom-fan-card
-    entity: fan.konfortvent                  # replace
-    name: Konfortvent
-    show_percentage_control: true
-    show_oscillate_control: false
-    icon_animation: true
+  # ── Climate entity ─────────────────────────────────────────
+  - type: custom:mushroom-climate-card
+    entity: climate.komfovent
+    name: Komfovent
+    show_temperature_control: true
+    hvac_modes:
+      - auto
+      - fan_only
+      - "off"
 
   # ── Mode selector buttons ──────────────────────────────────
   - type: custom:mushroom-title-card
     title: Mode
 
   - type: grid
-    columns: 4
+    columns: 3
     square: false
     cards:
-      - type: custom:button-card
-        name: Eco
-        icon: mdi:leaf
-        tap_action:
-          action: call-service
-          service: select.select_option
-          service_data:
-            entity_id: select.konfortvent_mode    # replace
-            option: eco
-        styles:
-          card:
-            - border-radius: 12px
-            - background: >
-                [[[
-                  return states['select.konfortvent_mode'].state === 'eco'
-                    ? 'var(--primary-color)'
-                    : 'var(--card-background-color)';
-                ]]]
-
       - type: custom:button-card
         name: Normal
         icon: mdi:fan
@@ -54,17 +35,11 @@ cards:
           action: call-service
           service: select.select_option
           service_data:
-            entity_id: select.konfortvent_mode
+            entity_id: select.komfovent_current_mode
             option: normal
         styles:
           card:
             - border-radius: 12px
-            - background: >
-                [[[
-                  return states['select.konfortvent_mode'].state === 'normal'
-                    ? 'var(--primary-color)'
-                    : 'var(--card-background-color)';
-                ]]]
 
       - type: custom:button-card
         name: Boost
@@ -73,17 +48,11 @@ cards:
           action: call-service
           service: select.select_option
           service_data:
-            entity_id: select.konfortvent_mode
+            entity_id: select.komfovent_current_mode
             option: boost
         styles:
           card:
             - border-radius: 12px
-            - background: >
-                [[[
-                  return states['select.konfortvent_mode'].state === 'boost'
-                    ? '#f5576c'
-                    : 'var(--card-background-color)';
-                ]]]
 
       - type: custom:button-card
         name: Away
@@ -92,17 +61,11 @@ cards:
           action: call-service
           service: select.select_option
           service_data:
-            entity_id: select.konfortvent_mode
+            entity_id: select.komfovent_current_mode
             option: away
         styles:
           card:
             - border-radius: 12px
-            - background: >
-                [[[
-                  return states['select.konfortvent_mode'].state === 'away'
-                    ? '#f6d365'
-                    : 'var(--card-background-color)';
-                ]]]
 
   # ── Sensor readings ────────────────────────────────────────
   - type: custom:mushroom-title-card
@@ -111,31 +74,31 @@ cards:
   - type: horizontal-stack
     cards:
       - type: custom:mushroom-entity-card
-        entity: sensor.konfortvent_temperature_supply   # replace
+        entity: sensor.komfovent_supply_temperature
         name: Supply
         icon: mdi:thermometer-chevron-up
         icon_color: orange
 
       - type: custom:mushroom-entity-card
-        entity: sensor.konfortvent_temperature_extract  # replace
+        entity: sensor.komfovent_extract_temperature
         name: Extract
         icon: mdi:thermometer-chevron-down
         icon_color: blue
 
       - type: custom:mushroom-entity-card
-        entity: sensor.konfortvent_humidity             # replace
-        name: Humidity
-        icon: mdi:water-percent
+        entity: sensor.komfovent_outdoor_temperature
+        name: Outdoor
+        icon: mdi:thermometer
         icon_color: teal
 
   # ── Temperature history ────────────────────────────────────
   - type: custom:mini-graph-card
     name: Temperature History
     entities:
-      - entity: sensor.konfortvent_temperature_supply   # replace
+      - entity: sensor.komfovent_supply_temperature
         name: Supply air
         color: "#f6a623"
-      - entity: sensor.konfortvent_temperature_extract  # replace
+      - entity: sensor.komfovent_extract_temperature
         name: Extract air
         color: "#4a90d9"
     hours_to_show: 12
@@ -145,3 +108,43 @@ cards:
     show:
       labels: true
       legend: true
+
+  # ── Power & energy ─────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Power & Energy
+
+  # Current instantaneous power draw (W) — NOT daily/total energy
+  - type: custom:mushroom-entity-card
+    entity: sensor.komfovent_power_consumption
+    name: Current Power
+    icon: mdi:lightning-bolt
+    icon_color: amber
+
+  # Power history over last 6 hours
+  - type: custom:mini-graph-card
+    name: Power Consumption (W)
+    entities:
+      - entity: sensor.komfovent_power_consumption
+        name: AHU power
+        color: "#e8a020"
+      - entity: sensor.komfovent_heater_power
+        name: Heater power
+        color: "#e05020"
+    hours_to_show: 6
+    points_per_hour: 4
+    line_width: 2
+    smoothing: true
+    show:
+      labels: true
+      legend: true
+
+  # Lifetime cumulative totals — odometer values, NOT daily usage
+  - type: entities
+    title: Lifetime Energy Totals
+    entities:
+      - entity: sensor.komfovent_total_ahu_energy
+        name: Total AHU energy (lifetime)
+      - entity: sensor.komfovent_total_heater_energy
+        name: Total heater energy (lifetime)
+      - entity: sensor.komfovent_total_recovered_energy
+        name: Total recovered energy (lifetime)

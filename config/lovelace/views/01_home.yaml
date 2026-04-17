@@ -10,7 +10,7 @@ cards:
   - type: custom:mushroom-chips-card
     chips:
       - type: entity
-        entity: sensor.outdoor_temperature    # replace with your outdoor temp sensor
+        entity: sensor.komfovent_outdoor_temperature
         icon: mdi:thermometer
       - type: template
         icon: mdi:lightbulb
@@ -27,7 +27,7 @@ cards:
           action: navigate
           navigation_path: /lovelace/climate
       - type: entity
-        entity: fan.konfortvent              # replace with your Konfortvent fan entity
+        entity: select.komfovent_current_mode
         icon: mdi:air-filter
         tap_action:
           action: navigate
@@ -121,11 +121,11 @@ cards:
     title: Status
 
   - type: custom:mushroom-template-card
-    primary: "{{ states('sensor.konfortvent_temperature_supply') }}°C supply air"
-    secondary: "Konfortvent — {{ states('select.konfortvent_mode') }} mode"
+    primary: "{{ states('sensor.komfovent_supply_temperature') }}°C supply air"
+    secondary: "Komfovent — {{ states('select.komfovent_current_mode') }} mode"
     icon: mdi:air-filter
     icon_color: >
-      {% if is_state('fan.konfortvent', 'on') %}blue{% else %}grey{% endif %}
+      {% if not is_state('climate.komfovent', 'off') %}blue{% else %}grey{% endif %}
     tap_action:
       action: navigate
       navigation_path: /lovelace/ventilation

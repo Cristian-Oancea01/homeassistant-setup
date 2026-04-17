@@ -46,7 +46,7 @@
   description: Partially close blinds during daytime when outdoor temp exceeds 28°C
   trigger:
     - platform: numeric_state
-      entity_id: sensor.outdoor_temperature    # replace with your outdoor sensor
+      entity_id: sensor.komfovent_outdoor_temperature
       above: 28
   condition:
     - condition: sun

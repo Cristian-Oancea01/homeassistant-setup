@@ -1,56 +1,55 @@
-# ============================================================
-# configuration.yaml — Home Assistant main config
-#
-# This file uses !include_dir_merge_named and !include_dir_list
-# so every integration, automation, scene, and script lives in
-# its own file under the appropriate subdirectory.
-#
-# To add or remove an integration: edit settings.yaml and run
-# scripts/apply-config.sh — or simply drop/add the file in
-# config/integrations/ and restart HA.
-# ============================================================
 
-homeassistant:
-  external_url: !secret ha_external_url
-  internal_url: !secret ha_internal_url
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+lovelace:
+  mode: yaml
+
+# ---- Automations ---------------------------------------------------
+# Existing automations are in automations/existing.yaml
+# Repo automations (blinds, climate, lighting, ventilation) are in
+# automations/ alongside. All files in the dir are loaded.
+automation: !include_dir_merge_list automations/
+
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# ---- Cover group (VELUX all-blinds control) ------------------------
+# Entity IDs are placeholders — update in integrations/cover_groups.yaml
+cover: !include integrations/cover_groups.yaml
+
+# ---- Presence group ------------------------------------------------
+# Replace person entity IDs in integrations/groups.yaml
+group: !include integrations/groups.yaml
+
+# ---- Google Assistant (bidirectional Google Home) ------------------
+# Requires: secrets google_project_id + google_credentials.json
+# Comment out if not yet configured.
+# google_assistant: !include integrations/google_assistant.yaml
+
+# ---- Logger --------------------------------------------------------
+logger:
+  default: warning
 
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 127.0.0.1
-    - ::1
-
-# ---- Core modules (always enabled) -------------------------
-frontend:
-  themes: !include_dir_merge_named themes/
-
-logger:
-  default: warning
-  logs:
-    homeassistant.components.google_assistant: info
-
-# ---- Integrations loaded from individual files -------------
-# Each file in config/integrations/ is a self-contained block.
-# Disable an integration by removing its file (or setting
-# enabled: false in settings.yaml and re-running apply-config.sh).
-
-# Google Assistant (manual OAuth — bidirectional Google Home)
-# File: integrations/google_assistant.yaml
-google_assistant: !include integrations/google_assistant.yaml
-
-# Vivax AC via SmartIR (Path B — only if vivax_smartir is enabled)
-# File: integrations/smartir.yaml
-# Uncomment the next two lines if using SmartIR instead of LocalTuya:
-# smartir:
-# climate: !include integrations/vivax_smartir_climate.yaml
-
-# ---- Groups (cover group for VELUX all-blinds control) -----
-cover: !include integrations/cover_groups.yaml
-
-# ---- Presence group ----------------------------------------
-group: !include integrations/groups.yaml
-
-# ---- Automations, scenes, scripts --------------------------
-automation: !include_dir_list automations/
-scene: !include_dir_list scenes/
-script: !include_dir_merge_named scripts/
+    - 173.245.48.0/20
+    - 103.21.244.0/22
+    - 103.22.200.0/22
+    - 103.31.4.0/22
+    - 141.101.64.0/18
+    - 108.162.192.0/18
+    - 190.93.240.0/20
+    - 188.114.96.0/20
+    - 197.234.240.0/22
+    - 198.41.128.0/17
+    - 162.158.0.0/15
+    - 104.16.0.0/13
+    - 104.24.0.0/14
+    - 172.64.0.0/13
+    - 131.0.72.0/22

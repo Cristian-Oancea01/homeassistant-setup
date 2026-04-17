@@ -7,5 +7,5 @@
 all_people:
   name: All People
   entities:
-    - person.resident_1    # replace with real person entity ID
-    - person.resident_2    # add or remove entries for your household
+    - person.cristian_oancea
+    - person.georgiana

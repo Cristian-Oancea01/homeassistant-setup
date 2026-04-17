@@ -1,31 +1,6 @@
 # automations/ventilation.yaml
-# Konfortvent HRV automations: humidity boost, away mode, return home.
-
-- alias: konfortvent_boost_on_humidity
-  id: konfortvent_boost_on_humidity
-  description: Switch Konfortvent to boost when humidity exceeds 65%
-  trigger:
-    - platform: numeric_state
-      entity_id: sensor.konfortvent_humidity    # replace with your entity
-      above: 65
-  action:
-    - service: select.select_option
-      target:
-        entity_id: select.konfortvent_mode      # replace with your entity
-      data:
-        option: boost
-    - wait_for_trigger:
-        - platform: numeric_state
-          entity_id: sensor.konfortvent_humidity
-          below: 55
-      timeout:
-        minutes: 30
-    - service: select.select_option
-      target:
-        entity_id: select.konfortvent_mode
-      data:
-        option: normal
-  mode: single
+# Komfovent HRV automations: away mode, return home.
+# Note: humidity boost automation removed — no humidity sensor installed.
 
 - alias: konfortvent_away_mode
   id: konfortvent_away_mode
@@ -37,7 +12,7 @@
   action:
     - service: select.select_option
       target:
-        entity_id: select.konfortvent_mode
+        entity_id: select.komfovent_current_mode
       data:
         option: away
   mode: single
@@ -52,7 +27,7 @@
   action:
     - service: select.select_option
       target:
-        entity_id: select.konfortvent_mode
+        entity_id: select.komfovent_current_mode
       data:
         option: normal
   mode: single

@@ -1,127 +1,152 @@
 # lovelace/views/03_climate.yaml
-# Climate view — Samsung, LG, and Vivax AC units + temperature history graph.
+# Climate view — Samsung AC (SmartThings), LG AC (ThinQ), power consumption.
 
 title: Climate
 path: climate
 icon: mdi:thermostat
 cards:
 
+  # ── Samsung AC (SmartThings) ───────────────────────────────
   - type: custom:mushroom-title-card
-    title: Air Conditioning
+    title: Samsung AC
+    subtitle: Living Room
 
-  # ── Samsung AC ─────────────────────────────────────────────
-  - type: custom:simple-thermostat
-    entity: climate.samsung_ac               # replace with your Samsung AC entity
+  - type: custom:mushroom-climate-card
+    entity: climate.room_air_conditioner
     name: Samsung AC
-    header:
-      toggle:
-        entity: climate.samsung_ac
-    sensors:
-      - entity: sensor.living_room_temperature   # replace or remove if unavailable
-        name: Room temp
-    control:
-      hvac:
-        heat:
-          name: Heat
-        cool:
-          name: Cool
-        heat_cool:
-          name: Auto
-        fan_only:
-          name: Fan
-        dry:
-          name: Dry
-      fan:
-        auto:
-          name: Auto
-        low:
-          name: Low
-        medium:
-          name: Med
-        high:
-          name: High
-    step_size: 0.5
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
 
-  # ── LG AC ──────────────────────────────────────────────────
-  - type: custom:simple-thermostat
-    entity: climate.lg_ac                    # replace
-    name: LG AC
-    header:
-      toggle:
-        entity: climate.lg_ac
-    sensors:
-      - entity: sensor.bedroom_temperature   # replace or remove if unavailable
-        name: Room temp
-    control:
-      hvac:
-        heat:
-          name: Heat
-        cool:
-          name: Cool
-        heat_cool:
-          name: Auto
-        fan_only:
-          name: Fan
-        dry:
-          name: Dry
-      fan:
-        auto:
-          name: Auto
-        low:
-          name: Low
-        medium:
-          name: Med
-        high:
-          name: High
-    step_size: 0.5
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_temperatura
+        name: Room Temp
+        icon: mdi:thermometer
+        icon_color: orange
 
-  # ── Vivax AC ───────────────────────────────────────────────
-  - type: custom:simple-thermostat
-    entity: climate.vivax_ac                 # replace
-    name: Vivax AC
-    header:
-      toggle:
-        entity: climate.vivax_ac
-    control:
-      hvac:
-        heat:
-          name: Heat
-        cool:
-          name: Cool
-        heat_cool:
-          name: Auto
-        fan_only:
-          name: Fan
-        dry:
-          name: Dry
-      fan:
-        auto:
-          name: Auto
-        low:
-          name: Low
-        medium:
-          name: Med
-        high:
-          name: High
-    step_size: 0.5
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_putere
+        name: Power
+        icon: mdi:lightning-bolt
+        icon_color: yellow
 
-  # ── Temperature History ────────────────────────────────────
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_energie
+        name: Energy
+        icon: mdi:meter-electric
+        icon_color: green
+
+  # ── LG AC (ThinQ) ─────────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Temperature History
+    title: LG AC
+    subtitle: Living Room Sus
+
+  - type: custom:mushroom-climate-card
+    entity: climate.ac_living_sus
+    name: LG AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_sus_energy_yesterday
+        name: Yesterday
+        icon: mdi:calendar-today
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_sus_energy_this_month
+        name: This Month
+        icon: mdi:calendar-month
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_sus_energy_last_month
+        name: Last Month
+        icon: mdi:calendar-arrow-left
+        icon_color: grey
+
+  # ── Power Consumption ──────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Power Consumption
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_putere
+        name: Samsung AC
+        icon: mdi:air-conditioner
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_power_consumption
+        name: HRV
+        icon: mdi:air-filter
+        icon_color: green
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_heater_power
+        name: HRV Heater
+        icon: mdi:heat-wave
+        icon_color: orange
 
   - type: custom:mini-graph-card
+    name: Power History
     entities:
-      - entity: sensor.living_room_temperature   # replace or remove
-        name: Living Room
-      - entity: sensor.bedroom_temperature       # replace or remove
-        name: Bedroom
-      - entity: sensor.outdoor_temperature       # replace with your outdoor sensor
-        name: Outdoor
+      - entity: sensor.room_air_conditioner_putere
+        name: Samsung AC
+        color: "#4a90d9"
+      - entity: sensor.komfovent_power_consumption
+        name: HRV
+        color: "#7ed321"
     hours_to_show: 24
     points_per_hour: 2
     line_width: 2
     smoothing: true
     show:
       labels: true
-      points: false
       legend: true
+
+  # ── Energy This Month ──────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Energy This Month
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_energie
+        name: Samsung AC
+        icon: mdi:air-conditioner
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_sus_energy_this_month
+        name: LG AC
+        icon: mdi:air-conditioner
+        icon_color: purple
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.dishwasher_energy_consumption
+        name: Dishwasher
+        icon: mdi:dishwasher
+        icon_color: teal
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_total_ahu_energy
+        name: HRV Total
+        icon: mdi:air-filter
+        icon_color: green
