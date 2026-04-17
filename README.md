@@ -53,7 +53,7 @@ homeassistant-setup/
 ### Step 1 — Clone this repo
 
 ```bash
-git clone https://github.com/Cristian-Oancea01/homeassistant-setup.git
+git clone https://github.com/<your-github-username>/homeassistant-setup.git
 cd homeassistant-setup
 ```
 
@@ -125,7 +125,7 @@ Google Home webhook requires a publicly accessible HTTPS endpoint.
 Then update `config/secrets.yaml`:
 ```yaml
 ha_external_url: "https://yourdomain.com"
-ha_internal_url: "http://192.168.1.10:8123"
+ha_internal_url: "http://<qnap-ip>:<ha-port>"
 ```
 
 ---

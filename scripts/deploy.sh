@@ -7,7 +7,7 @@
 #   ./scripts/deploy.sh [QNAP_IP] [QNAP_USER] [HA_CONFIG_PATH]
 #
 # Examples:
-#   ./scripts/deploy.sh 192.168.1.10 admin /share/homeassistant/config
+#   ./scripts/deploy.sh <qnap-ip> <qnap-user> /share/homeassistant/config
 #   ./scripts/deploy.sh   (uses defaults from .env)
 #
 # What it does:
@@ -25,8 +25,8 @@ if [ -f .env ]; then
   export $(grep -v '^#' .env | grep -v '^$' | xargs)
 fi
 
-QNAP_IP="${1:-${QNAP_IP:-192.168.1.10}}"
-QNAP_USER="${2:-${QNAP_USER:-admin}}"
+QNAP_IP="${1:-${QNAP_IP:-REPLACE_ME}}"
+QNAP_USER="${2:-${QNAP_USER:-REPLACE_ME}}"
 HA_CONFIG_PATH="${3:-${HA_CONFIG_PATH:-/share/homeassistant/config}}"
 
 echo "==> Deploying to ${QNAP_USER}@${QNAP_IP}:${HA_CONFIG_PATH}"
