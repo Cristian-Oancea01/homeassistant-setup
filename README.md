@@ -96,7 +96,7 @@ docker compose up -d
 ./scripts/validate.sh
 
 # Deploy to QNAP
-./scripts/deploy.sh 192.168.1.10 admin /share/homeassistant/config
+./scripts/deploy.sh <qnap-ip> <qnap-user> /share/homeassistant/config
 ```
 
 Or manually copy the `config/` folder to `/share/homeassistant/config/` via QNAP File Station.

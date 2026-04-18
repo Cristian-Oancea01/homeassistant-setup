@@ -1,5 +1,9 @@
 # lovelace/views/02_lighting.yaml
-# Lighting view — all lights grouped by room (real Hue entity IDs).
+# Lighting view — all lights grouped by room.
+#
+# Entity IDs below are examples from a Philips Hue setup.
+# Replace light.* entity IDs with your own.
+# Find yours: Settings → Developer Tools → States → filter "light."
 
 title: Lighting
 path: lighting
@@ -15,254 +19,200 @@ cards:
     square: false
     cards:
       - type: custom:mushroom-light-card
-        entity: light.living_jos
-        name: Living Jos
+        entity: light.living_room_main       # replace
+        name: Main Light
         show_brightness_control: true
         show_color_temp_control: true
         show_color_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.living_sus
-        name: Living Sus
-        show_brightness_control: true
-        show_color_temp_control: true
-        show_color_control: true
-        collapsible_controls: true
-
-      - type: custom:mushroom-light-card
-        entity: light.bec_living
-        name: Bec Living
+        entity: light.living_room_floor      # replace
+        name: Floor Lamp
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.bec_insula_jos
-        name: Insula Jos
+        entity: light.living_room_island_1   # replace
+        name: Island 1
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.bec_insula_sus
-        name: Insula Sus
+        entity: light.living_room_island_2   # replace
+        name: Island 2
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.bec_masa_jos
-        name: Masa Jos
-        show_brightness_control: true
-        show_color_temp_control: true
-        collapsible_controls: true
-
-      - type: custom:mushroom-light-card
-        entity: light.bec_masa_sus
-        name: Masa Sus
+        entity: light.living_room_table      # replace
+        name: Table Light
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
   - type: custom:mushroom-title-card
-    title: Spoturi Living
+    title: Living Room Spots
 
   - type: grid
     columns: 4
     square: true
     cards:
       - type: custom:mushroom-light-card
-        entity: light.spot_living_1
+        entity: light.spot_living_1          # replace
         name: Spot 1
         show_brightness_control: true
         collapsible_controls: true
       - type: custom:mushroom-light-card
-        entity: light.spot_living_2
+        entity: light.spot_living_2          # replace
         name: Spot 2
         show_brightness_control: true
         collapsible_controls: true
       - type: custom:mushroom-light-card
-        entity: light.spot_living_3
+        entity: light.spot_living_3          # replace
         name: Spot 3
         show_brightness_control: true
         collapsible_controls: true
       - type: custom:mushroom-light-card
-        entity: light.spot_living_4
+        entity: light.spot_living_4          # replace
         name: Spot 4
         show_brightness_control: true
         collapsible_controls: true
 
-  # ── Dormitor ───────────────────────────────────────────────
+  # ── Bedroom ────────────────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Dormitor
+    title: Bedroom
 
   - type: grid
     columns: 2
     square: false
     cards:
       - type: custom:mushroom-light-card
-        entity: light.dormitor_sus
-        name: Dormitor Sus
+        entity: light.bedroom_main           # replace
+        name: Bedroom Main
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.dormitor_sus_1
-        name: Dormitor Sus 1
+        entity: light.bedroom_bedside_1      # replace
+        name: Bedside 1
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.dormitor_sus_2
-        name: Dormitor Sus 2
+        entity: light.bedroom_bedside_2      # replace
+        name: Bedside 2
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
-      - type: custom:mushroom-light-card
-        entity: light.dormitor_victor
-        name: Dormitor Victor
-        show_brightness_control: true
-        show_color_temp_control: true
-        collapsible_controls: true
-
-  # ── Birou ──────────────────────────────────────────────────
+  # ── Office ─────────────────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Birou
+    title: Office
 
   - type: grid
     columns: 2
     square: false
     cards:
       - type: custom:mushroom-light-card
-        entity: light.birou_cristi
-        name: Birou Cristi
+        entity: light.office_desk_1          # replace
+        name: Desk 1
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.birou_cristi_2
-        name: Birou Cristi 2
+        entity: light.office_desk_2          # replace
+        name: Desk 2
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
-      - type: custom:mushroom-light-card
-        entity: light.birou_georgi
-        name: Birou Georgi
-        show_brightness_control: true
-        show_color_temp_control: true
-        collapsible_controls: true
-
-  # ── Hol & Baie ────────────────────────────────────────────
+  # ── Hallway & Bathroom ─────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Hol & Baie
+    title: Hallway & Bathroom
 
   - type: grid
     columns: 2
     square: false
     cards:
       - type: custom:mushroom-light-card
-        entity: light.hol_sus
-        name: Hol Sus
+        entity: light.hallway_main           # replace
+        name: Hallway
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.hol_sus_2
-        name: Hol Sus 2
+        entity: light.bathroom_main          # replace
+        name: Bathroom
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
-      - type: custom:mushroom-light-card
-        entity: light.baie_sus
-        name: Baie Sus
-        show_brightness_control: true
-        show_color_temp_control: true
-        collapsible_controls: true
-
-  # ── Scara ──────────────────────────────────────────────────
+  # ── Staircase ──────────────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Scara
+    title: Staircase
 
   - type: grid
     columns: 3
     square: true
     cards:
       - type: custom:mushroom-light-card
-        entity: light.bec_scara
-        name: Bec Scara
+        entity: light.staircase_main         # replace
+        name: Staircase
         show_brightness_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.spot_scara_1
+        entity: light.spot_staircase_1       # replace
         name: Spot 1
         show_brightness_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.spot_scara_2
+        entity: light.spot_staircase_2       # replace
         name: Spot 2
         show_brightness_control: true
         collapsible_controls: true
 
-  # ── Panouri & Diverse ──────────────────────────────────────
+  # ── Panels & Misc ──────────────────────────────────────────
   - type: custom:mushroom-title-card
-    title: Panouri & Diverse
+    title: Panels & Misc
 
   - type: grid
     columns: 2
     square: false
     cards:
       - type: custom:mushroom-light-card
-        entity: light.hue_aurelle_panel_4
-        name: Aurelle Panel 4
+        entity: light.panel_1                # replace
+        name: Panel 1
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.hue_aurelle_panel_5
-        name: Aurelle Panel 5
+        entity: light.panel_2                # replace
+        name: Panel 2
         show_brightness_control: true
         show_color_temp_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.hue_flourish_pendant_1
-        name: Flourish Pendant
+        entity: light.pendant_1              # replace
+        name: Pendant
         show_brightness_control: true
         show_color_temp_control: true
         show_color_control: true
         collapsible_controls: true
 
       - type: custom:mushroom-light-card
-        entity: light.hue_white_lamp_2
-        name: White Lamp 2
-        show_brightness_control: true
-        collapsible_controls: true
-
-      - type: custom:mushroom-light-card
-        entity: light.hue_white_lamp_3
-        name: White Lamp 3
-        show_brightness_control: true
-        collapsible_controls: true
-
-      - type: custom:mushroom-light-card
-        entity: light.dimmable_light_1
+        entity: light.dimmable_1             # replace
         name: Dimmable 1
-        show_brightness_control: true
-        collapsible_controls: true
-
-      - type: custom:mushroom-light-card
-        entity: light.dimmable_light_1_2
-        name: Dimmable 1.2
         show_brightness_control: true
         collapsible_controls: true

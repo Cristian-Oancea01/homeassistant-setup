@@ -7,11 +7,11 @@ compatibility: opencode
 
 ## Access
 
-- SSH: `plink -ssh MCP@<nas-ip> -pw "<password>" -batch "<cmd>"`
+- SSH: `ssh <qnap-user>@<nas-ip>`
 - Docker binary: `/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker`
-- HA container: `home-assistant`
-- HA config via SMB: `Z:\HomeAssistantConfig\` = `/share/Public/HomeAssistantConfig/`
-- Credentials: `C:\Users\oance\.config\opencode\local\nas_access.md` — **never commit**
+- HA container name: `homeassistant`
+- HA config path on NAS: `/share/homeassistant/config/`
+- Credentials: stored locally in a secrets file — **never commit**
 
 ## Lessons learned (keep updated)
 
@@ -24,21 +24,21 @@ compatibility: opencode
 - **Lovelace yaml changes require a container restart** — file watcher does not detect SMB changes
 
 ### Container restart
-```powershell
-plink -ssh MCP@<nas-ip> -pw "<password>" -batch `
-  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker restart home-assistant"
+```bash
+ssh <qnap-user>@<nas-ip> \
+  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker restart homeassistant"
 # Wait ~45s, then check logs:
-plink -ssh MCP@<nas-ip> -pw "<password>" -batch `
-  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker logs --tail 10 home-assistant 2>&1"
+ssh <qnap-user>@<nas-ip> \
+  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker logs --tail 10 homeassistant 2>&1"
 ```
 
 ### Custom cards not loading ("configuration error" on every card)
 Two causes found:
 1. `resources: []` in `configuration.yaml` blanks out all card JS — remove it
-2. `lovelace_dashboards` mode set to `storage` — patch with `sed -i s/storage/yaml/ /share/Public/HomeAssistantConfig/.storage/lovelace_dashboards` (stop container first)
+2. `lovelace_dashboards` mode set to `storage` — patch with `sed -i s/storage/yaml/ /share/homeassistant/config/.storage/lovelace_dashboards` (stop container first)
 
 ### Mushroom cards
-- HACS installs `piitaya/lovelace-mushroom` — single file `mushroom.js` (~712KB for v5.1.1)
+- HACS installs `piitaya/lovelace-mushroom` — single file `mushroom.js`
 - Card types: `custom:mushroom-light-card`, `custom:mushroom-entity-card`, `custom:mushroom-title-card`, `custom:mushroom-template-card`, `custom:mushroom-climate-card`, `custom:mushroom-cover-card`, `custom:mushroom-chips-card`
 - Card names are NOT visible as literal strings in the minified JS — they are assembled from variables. This is normal.
 
@@ -65,39 +65,34 @@ views:
 - pymodbus 3.11+ renamed `slave=` → `device_id=`
 - Fixed in `/config/custom_components/komfovent/modbus.py` — all 4 call sites use `device_id=self._unit`
 
-### Real Komfovent entity IDs
+### Komfovent entity IDs (example — your IDs may differ)
 - `climate.komfovent`
 - `select.komfovent_current_mode` (options: normal / boost / away)
 - `select.komfovent_scheduler_mode`, `select.komfovent_temperature_control`, `select.komfovent_flow_control`, `select.komfovent_eco_heat_recovery`
 - `sensor.komfovent_supply_temperature`, `sensor.komfovent_extract_temperature`, `sensor.komfovent_outdoor_temperature`
-- `sensor.komfovent_power_consumption` — **instantaneous power in W** (use this for "current power" displays)
+- `sensor.komfovent_power_consumption` — **instantaneous power in W**
 - `sensor.komfovent_heater_power` — instantaneous heater power in W
-- `sensor.komfovent_total_ahu_energy`, `sensor.komfovent_total_heater_energy`, `sensor.komfovent_total_recovered_energy` — **lifetime odometer totals in kWh**, NOT daily usage. Never label these as "daily" or "today".
+- `sensor.komfovent_total_ahu_energy`, `sensor.komfovent_total_heater_energy`, `sensor.komfovent_total_recovered_energy` — **lifetime odometer totals in kWh**, NOT daily usage
 - `sensor.komfovent_specific_power_input`, `sensor.komfovent_heat_exchanger_efficiency`, `sensor.komfovent_energy_saving`
-- **No humidity sensor installed** — do not add humidity cards or automations
-
-### Real Hue entity IDs
-`light.living_jos`, `light.living_sus`, `light.spot_living_1..4`, `light.bec_living`, `light.bec_insula_jos`, `light.bec_insula_sus`, `light.dormitor_sus`, `light.dormitor_sus_1`, `light.dormitor_sus_2`, `light.dormitor_victor`, `light.birou_cristi`, `light.birou_cristi_2`, `light.birou_georgi`, `light.hol_sus`, `light.hol_sus_2`, `light.baie_sus`, `light.bec_scara`, `light.spot_scara_1`, `light.spot_scara_2`, `light.bec_masa_jos`, `light.bec_masa_sus`, `light.hue_aurelle_panel_4`, `light.hue_aurelle_panel_5`, `light.hue_flourish_pendant_1`, `light.hue_white_lamp_2`, `light.hue_white_lamp_3`, `light.dimmable_light_1`, `light.dimmable_light_1_2`
+- **No humidity sensor** — do not add humidity cards or automations unless you have one
 
 ### Outdoor temperature
-Use `sensor.komfovent_outdoor_temperature` — no separate weather integration needed.
+Use `sensor.komfovent_outdoor_temperature` if you have Komfovent — no separate weather integration needed.
 
 ### Automations
 - Files in `automations/` loaded via `!include_dir_merge_list automations/` — each file is a YAML list
-- `automations/existing.yaml` — UI-created automations (dishwasher ECO program, sunset island light, etc.)
-- Real automation IDs: `blinds_open_at_sunrise`, `blinds_close_at_sunset`, `blinds_close_on_heat`, `ac_schedule_weekday_morning`, `ac_off_when_window_open`, `good_night_routine`, `konfortvent_away_mode`, `konfortvent_return_home`, `la_apus_aprinde_lumina_la_insula`
+- `automations/existing.yaml` — placeholder for UI-created automations
+- Automation IDs used in this repo: `blinds_open_at_sunrise`, `blinds_close_at_sunset`, `blinds_close_on_heat`, `ac_schedule_weekday_morning`, `ac_off_when_window_open`, `good_night_routine`, `konfortvent_away_mode`, `konfortvent_return_home`
 
-### Real Samsung AC entity IDs (SmartThings integration)
+### Samsung AC entity IDs (SmartThings integration — example)
 - `climate.room_air_conditioner` — modes: off/cool/heat/fan_only/dry/auto
 - `sensor.room_air_conditioner_temperatura` — room temperature
 - `sensor.room_air_conditioner_putere` — power (W)
 - `sensor.room_air_conditioner_energie` — energy (kWh)
-- `sensor.room_air_conditioner_energy_difference`, `_energy_saved`, `_power_energy`
 
-### Real LG AC entity IDs (LG ThinQ / smartthinq_sensors)
+### LG AC entity IDs (LG ThinQ / smartthinq_sensors — example)
 - `climate.ac_living_sus` — modes: off/dry/auto/fan_only/cool/heat
 - `sensor.ac_living_sus_energy_yesterday`, `_this_month`, `_last_month`
-- Also exposes fridge: `sensor.frigider_sus_*` door sensor + fridge/freezer temp controls
 
 ### Known broken integrations (deferred)
 - **Miele**: `flatdict==4.0.1` fails on Python 3.14 (`pkg_resources` missing) — wait for upstream fix or remove
@@ -108,38 +103,50 @@ Use `sensor.komfovent_outdoor_temperature` — no separate weather integration n
 ### Verifying real entity IDs
 ```bash
 # List all entities of a domain from registry
-plink ... "docker exec home-assistant grep -o 'sensor.komfovent[a-z_]*' /config/.storage/core.entity_registry | sort -u"
+ssh <qnap-user>@<nas-ip> "docker exec homeassistant grep -o 'sensor.komfovent[a-z_]*' /config/.storage/core.entity_registry | sort -u"
 ```
 
 ## File structure
 ```
-Z:\HomeAssistantConfig\
-├── configuration.yaml          # default_config, lovelace yaml mode, http trusted proxies
-├── ui-lovelace.yaml            # resources + !include views
-├── automations\
-│   ├── existing.yaml           # UI-created automations
-│   ├── blinds.yaml
-│   ├── climate.yaml
-│   ├── lighting.yaml
-│   └── ventilation.yaml
-├── integrations\
-│   ├── groups.yaml             # person group
-│   └── cover_groups.yaml      # VELUX placeholder cover group
-├── custom_components\
-│   └── komfovent\
-│       └── modbus.py           # FIXED: device_id= for pymodbus 3.11+
-└── lovelace\views\
-    ├── 01_home.yaml            # uses real Komfovent + Hue entities
-    ├── 02_lighting.yaml        # all real Hue entity IDs
-    ├── 03_climate.yaml         # Samsung (SmartThings) + LG (ThinQ) real entities + power/energy cards
-    ├── 04_ventilation.yaml     # real Komfovent entities, power (W) + lifetime energy totals, no humidity card
-    ├── 05_blinds.yaml          # placeholder VELUX covers
-    └── 06_settings.yaml        # real automation entity IDs only
+homeassistant-setup/
+├── docker-compose.yml              # HA container (host network mode)
+├── .env.example                    # copy to .env, fill in your values
+├── settings.yaml                   # enable/disable integrations and automations
+├── config/
+│   ├── configuration.yaml          # main HA config (modular includes)
+│   ├── secrets.yaml.example        # copy to secrets.yaml, fill in credentials
+│   ├── integrations/
+│   │   ├── google_assistant.yaml   # Google Home OAuth config
+│   │   ├── cover_groups.yaml       # VELUX "all blinds" group
+│   │   ├── groups.yaml             # person/presence groups
+│   │   └── vivax_smartir_climate.yaml # Vivax IR fallback (Path B)
+│   ├── automations/
+│   │   ├── existing.yaml           # placeholder for UI-created automations
+│   │   ├── blinds.yaml             # sunrise/sunset/heat automations
+│   │   ├── lighting.yaml           # motion lights, welcome home
+│   │   ├── climate.yaml            # AC schedule, window guard, good night
+│   │   └── ventilation.yaml        # Komfovent humidity/presence
+│   ├── scenes/
+│   │   └── scenes.yaml             # Morning, Evening, Movie, Night, Away
+│   ├── scripts/
+│   │   └── good_night.yaml         # Good Night on-demand script
+│   └── lovelace/
+│       ├── ui-lovelace.yaml        # dashboard assembler
+│       └── views/
+│           ├── 01_home.yaml        # overview + scene tiles
+│           ├── 02_lighting.yaml    # all lights by room
+│           ├── 03_climate.yaml     # AC units + temp graph
+│           ├── 04_ventilation.yaml # Komfovent full control
+│           ├── 05_blinds.yaml      # VELUX covers
+│           └── 06_settings.yaml    # automation toggles + system
+└── scripts/
+    ├── deploy.sh                   # rsync config to QNAP + restart HA
+    └── validate.sh                 # YAML syntax check before deploy
 ```
 
 ## Next steps
 1. Remove `govee_light_ble` — HACS UI → remove archived repo
-2. Generate new Long-Lived Access Token in HA (old one expired)
+2. Generate new Long-Lived Access Token in HA if expired
 3. Govee: install `govee_lights_local` HACS, enable LAN in Govee app
 4. Vivax: tinytuya scan → if found use LocalTuya, else SmartIR
 5. VELUX: requires KLF200 hardware interface

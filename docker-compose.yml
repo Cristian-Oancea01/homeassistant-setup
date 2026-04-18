@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     privileged: true
     environment:
-      - TZ=${TZ:-Europe/Zagreb}
+      - TZ=${TZ:-UTC}                   # set TZ in .env (e.g. Europe/London, America/New_York)
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8123/api/"]
       interval: 30s

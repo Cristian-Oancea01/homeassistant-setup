@@ -1,56 +1,27 @@
-- id: '1759241589479'
-  alias: Porneste program ECO masina
-  description: ''
-  triggers:
-  - trigger: conversation
-    command: Start ECO program on Dishwasher
-  conditions: []
-  actions:
-  - device_id: b4090ca76bf26cb963a2d6ea58d4187a
-    domain: button
-    entity_id: 9845dc4e5405be81d0b5107308027e63
-    type: press
-  - type: turn_on
-    device_id: b4090ca76bf26cb963a2d6ea58d4187a
-    entity_id: b48fd6188031008b3ec47622acad4dbd
-    domain: switch
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 15
-      milliseconds: 0
-  - device_id: b4090ca76bf26cb963a2d6ea58d4187a
-    domain: button
-    entity_id: 9845dc4e5405be81d0b5107308027e63
-    type: press
-  mode: single
-- id: '1759251806940'
-  alias: La apus aprinde lumina la insula
-  description: ''
-  triggers:
-  - trigger: sun
-    event: sunset
-    offset: 0
-  conditions: []
-  actions:
-  - type: turn_on
-    device_id: c04bb08bb68159f97e70af356b8df85d
-    entity_id: 6c5ad233225878165cac9936a5e794f1
-    domain: light
-  mode: single
-- id: '1759488981356'
-  alias: Notificare terminare program masina
-  description: ''
-  triggers:
-  - device_id: b4090ca76bf26cb963a2d6ea58d4187a
-    domain: miele
-    entity_id: sensor.dishwasher_status
-    type: program_ended
-    trigger: device
-  conditions: []
-  actions:
-  - action: notify.send_message
-    metadata: {}
-    data:
-      message: Masina de spalat a terminat de spalat.
-  mode: single
+# automations/existing.yaml
+# UI-created automations exported from Home Assistant.
+#
+# This file is managed by the HA UI (Settings → Automations).
+# When you export automations from the UI, paste them here.
+#
+# NOTE: device_id values are instance-specific — they will differ on
+# every HA installation. After cloning this repo you must recreate
+# these automations via the UI or update the device_id and entity_id
+# values to match your own installation.
+#
+# Example structure (replace with your exported automations):
+
+# - id: 'unique_automation_id'
+#   alias: My Automation Name
+#   description: ''
+#   triggers:
+#     - trigger: sun
+#       event: sunset
+#       offset: 0
+#   conditions: []
+#   actions:
+#     - type: turn_on
+#       device_id: YOUR_DEVICE_ID       # replace with your device_id
+#       entity_id: YOUR_ENTITY_ID       # replace with your entity_id
+#       domain: light
+#   mode: single

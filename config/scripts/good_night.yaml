@@ -25,7 +25,7 @@ good_night:
       data:
         temperature: 20
         hvac_mode: >
-          {% if states('sensor.outdoor_temperature') | float(default=15) > 18 %}
+          {% if states('sensor.komfovent_outdoor_temperature') | float(default=15) > 18 %}
             cool
           {% else %}
             "off"

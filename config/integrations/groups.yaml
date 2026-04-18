@@ -7,5 +7,5 @@
 all_people:
   name: All People
   entities:
-    - person.cristian_oancea
-    - person.georgiana
+    - person.resident_1    # replace with your person.* entity ID
+    - person.resident_2    # replace with your person.* entity ID
