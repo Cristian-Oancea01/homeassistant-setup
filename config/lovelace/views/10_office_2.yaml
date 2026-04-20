@@ -1,0 +1,35 @@
+# lovelace/views/10_office_2.yaml
+# Office 2 — separate room, second office
+# Real entity IDs are in AGENTS.local.md on the NAS (not committed)
+
+title: Office 2
+path: office-2
+icon: mdi:desk
+
+cards:
+
+  - type: custom:mushroom-title-card
+    title: Lights
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+
+      # Hue room group
+      - type: custom:mushroom-light-card
+        entity: light.office_2_ceiling_group    # replace — Hue room group
+        name: Ceiling
+        icon: mdi:lightbulb-group
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      # Pendant lamp
+      - type: custom:mushroom-light-card
+        entity: light.office_2_pendant    # replace — pendant lamp
+        name: Pendant
+        icon: mdi:ceiling-light
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true

@@ -29,6 +29,9 @@ scene: !include scenes.yaml
 # Entity IDs are placeholders — update in integrations/cover_groups.yaml
 cover: !include integrations/cover_groups.yaml
 
+# ---- Light groups (office desk/shelf groups) -----------------------
+light: !include integrations/light_groups.yaml
+
 # ---- Presence group ------------------------------------------------
 # Replace person entity IDs in integrations/groups.yaml
 group: !include integrations/groups.yaml

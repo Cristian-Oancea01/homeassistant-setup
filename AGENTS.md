@@ -1,8 +1,11 @@
 # AGENTS.md — Project Reference for AI Agents
 
 Read this file first before exploring any other file in this repo.
-It documents the full project structure, all devices/entities, the dashboard layout, and conventions.
+It documents the full project structure, dashboard layout, and conventions.
 Update this file whenever the project structure, views, or entities change.
+
+**Private entity mappings** (real names, room labels, entity IDs specific to this installation)
+are stored on the NAS at `/share/Public/HomeAssistantConfig/AGENTS.local.md` — never committed.
 
 ---
 
@@ -32,6 +35,7 @@ homeassistant-setup/
 │   ├── integrations/
 │   │   ├── cover_groups.yaml       # VELUX group: cover.all_velux_covers
 │   │   ├── groups.yaml             # Presence group: group.all_people
+│   │   ├── light_groups.yaml       # HA light groups for desk/shelf combos
 │   │   ├── google_assistant.yaml   # Google Home bidirectional (commented out in config)
 │   │   └── vivax_smartir_climate.yaml  # SmartIR fallback for Vivax (unused if Midea LAN active)
 │   ├── lovelace/
@@ -43,10 +47,12 @@ homeassistant-setup/
 │   │   └── scripts.yaml            # Additional scripts
 │   ├── custom_components/          # HACS components (installed at runtime, not committed)
 │   └── www/                        # Custom frontend assets (not committed)
+├── docs/
+│   └── managing-lights-and-groups.md  # Guide for adding lights/groups via UI or YAML
 ├── docker-compose.yml
 ├── settings.yaml
 ├── .env.example
-└── AGENTS.md                       # ← this file
+└── AGENTS.md                       # ← this file (generic only)
 ```
 
 ---
@@ -61,11 +67,12 @@ Tab order and file mapping in `config/lovelace/views/`:
 | 02 | `02_living_room.yaml` | Living Room | `living-room` | `mdi:sofa` |
 | 03 | `03_dormitor_sus.yaml` | Bedroom 1 | `bedroom-1` | `mdi:bed-king` |
 | 04 | `04_dormitor_victor.yaml` | Bedroom 2 | `bedroom-2` | `mdi:bed` |
-| 05 | `05_office.yaml` | Office | `office` | `mdi:desk` |
+| 05 | `05_office.yaml` | Office 1 | `office` | `mdi:desk` |
 | 06 | `06_other_rooms.yaml` | Other Rooms | `other-rooms` | `mdi:home-floor-1` |
 | 07 | `07_ventilation.yaml` | Ventilation | `ventilation` | `mdi:air-filter` |
 | 08 | `08_energy.yaml` | Energy | `energy` | `mdi:lightning-bolt` |
 | 09 | `09_automations.yaml` | Automations | `automations` | `mdi:robot` |
+| 10 | `10_office_2.yaml` | Office 2 | `office-2` | `mdi:desk` |
 
 ### View contents summary
 
@@ -73,11 +80,12 @@ Tab order and file mapping in `config/lovelace/views/`:
 - **02 Living Room** — lights (upper/kitchen, main, islands ×2, table ×2, spots ×4, TV), LG AC, room automations (blinds sunrise/sunset/heat, sunset island light).
 - **03 Bedroom 1** — Vivax AC (Midea LAN) + temps, LED display toggle, bedroom lights (main, bedside ×2), weekday morning AC automation toggle.
 - **04 Bedroom 2** — Vivax AC (Midea LAN) + temps, LED display toggle, room light, weekday morning AC automation toggle.
-- **05 Office** — Two offices: Office 1 (Samsung AC, lights ×8) and Office 2 (LG AC, lights ×4).
+- **05 Office 1** — main ceiling light, display cabinet/shelf light, shelf lightstrips (upper/lower), desk lamp, PC light bars. Two YAML light groups: desk setup group and shelf group.
 - **06 Other Rooms** — Upper Hallway (lights ×2), Upper Bathroom (light), Staircase (main + spots ×2), Dressing Room, Storage Room, VELUX blinds.
 - **07 Ventilation** — Komfovent full control: climate card, mode buttons (Normal/Boost/Away), temperature sensors + graph, power + energy graphs, lifetime totals.
 - **08 Energy** — all consumption graphs and energy stats: Samsung AC power/energy, LG AC energy (yesterday/month/last month), HRV power + graphs, monthly summary across all ACs.
 - **09 Automations** — global house automations (blinds sunrise/sunset/heat, ventilation away/return, good night routine, AC morning schedule, sunset island light).
+- **10 Office 2** — second office: ceiling light and pendant lamp.
 
 ---
 
@@ -101,13 +109,15 @@ Tab order and file mapping in `config/lovelace/views/`:
 | Komfovent HRV | Custom integration | `climate.komfovent`, `select.komfovent_current_mode`, multiple sensors |
 | VELUX blinds | VELUX Active | `cover.velux_*` |
 | Philips Hue | Hue bridge | All `light.*` entities, motion sensors |
+| Govee | Govee LAN | LED strips and light bars |
 | Google Home | Google Assistant | bidirectional — config commented out until credentials added |
 
 ---
 
 ## All Entities
 
-All entity IDs below are **examples / placeholders** — replace with your real entity IDs from HA Developer Tools → States.
+All entity IDs below are **placeholder templates** — replace with real IDs from HA Developer Tools → States.
+Real entity IDs for this installation are documented in `AGENTS.local.md` on the NAS (never committed).
 
 ### Climate / AC
 
@@ -120,7 +130,27 @@ All entity IDs below are **examples / placeholders** — replace with your real 
 | `climate.midea_ac_bedroom_2` | Vivax AC (Midea LAN) | Bedroom 2 |
 | `climate.komfovent` | Komfovent HRV | Whole house |
 
-### Lights
+### Lights — Office 1
+
+| Entity | Description | Notes |
+|--------|-------------|-------|
+| `light.office_1_ceiling_group` | Hue room group — primary ceiling control | replace |
+| `light.office_1_ceiling` | Individual Hue bulb — display shelf/cabinet | replace |
+| `light.office_1_shelf_upper` | Upper shelf lightstrip (Govee) | replace |
+| `light.office_1_shelf_lower` | Lower shelf lightstrip (Govee) | replace |
+| `light.office_1_desk` | Desk lamp (Govee) | replace |
+| `light.office_1_pc_bars` | PC light bars (Govee) | replace |
+| `light.group_office_1_desk_setup` | HA group: desk + PC bars | light_groups.yaml |
+| `light.group_office_1_shelves` | HA group: upper + lower shelf | light_groups.yaml |
+
+### Lights — Office 2
+
+| Entity | Description | Notes |
+|--------|-------------|-------|
+| `light.office_2_ceiling_group` | Hue room group | replace |
+| `light.office_2_pendant` | Hue pendant lamp | replace |
+
+### Lights — Other Rooms
 
 | Entity | Name | Room |
 |--------|------|------|
@@ -131,27 +161,13 @@ All entity IDs below are **examples / placeholders** — replace with your real 
 | `light.living_room_island_upper` | Island Upper | Living Room |
 | `light.living_room_table_lower` | Table Lower | Living Room |
 | `light.living_room_table_upper` | Table Upper | Living Room |
-| `light.living_room_tree` | Tree | Living Room |
 | `light.spot_living_1` – `light.spot_living_4` | Spots 1–4 | Living Room |
 | `light.tv_lights` | TV Lights | Living Room |
 | `light.tv_living` | TV | Living Room |
-| `light.living_room_lower` | Lower | Living Room Lower |
 | `light.bedroom_1` | Main | Bedroom 1 |
 | `light.bedroom_1_bedside_1` | Bedside 1 | Bedroom 1 |
 | `light.bedroom_1_bedside_2` | Bedside 2 | Bedroom 1 |
 | `light.bedroom_2` | Main | Bedroom 2 |
-| `light.office_1` | Office 1 | Office 1 |
-| `light.office_1_b` | Office 1 B | Office 1 |
-| `light.office_1_floor` | Floor | Office 1 |
-| `light.office_1_ceiling` | Ceiling | Office 1 |
-| `light.office_1_desk` | Desk | Office 1 |
-| `light.office_1_ambient_1` | Ambient 1 | Office 1 |
-| `light.office_1_ambient_2` | Ambient 2 | Office 1 |
-| `light.office_1_display_cabinet` | Display Cabinet | Office 1 |
-| `light.office_2` | Office 2 | Office 2 |
-| `light.office_2_lamp` | Lamp | Office 2 |
-| `light.office_2_pendant` | Pendant | Office 2 |
-| `light.office_2_bookshelf` | Bookshelf | Office 2 |
 | `light.upper_hallway` | Upper Hallway | Upper Hallway |
 | `light.upper_hallway_2` | Upper Hallway 2 | Upper Hallway |
 | `light.upper_bathroom` | Upper Bathroom | Upper Bathroom |
@@ -159,8 +175,6 @@ All entity IDs below are **examples / placeholders** — replace with your real 
 | `light.spot_staircase_1` – `light.spot_staircase_2` | Spots 1–2 | Staircase |
 | `light.dressing_room` | Dressing Room | Dressing Room |
 | `light.storage_room` | Storage Room | Storage Room |
-
-All `light.*` entity IDs are placeholders marked `# replace` — update with actual Hue entity IDs from HA Developer Tools → States.
 
 ### Covers (VELUX)
 
@@ -276,8 +290,9 @@ All `light.*` entity IDs are placeholders marked `# replace` — update with act
 
 ## Conventions
 
-- All entity IDs marked `# replace` are placeholder templates — replace with real IDs from HA Developer Tools → States.
+- All entity IDs in committed files use generic English names marked `# replace` — never hardcode real names.
 - Never commit `config/secrets.yaml` — only `secrets.yaml.example` is committed.
+- Real entity IDs, room names, and person names specific to this installation live in `AGENTS.local.md` on the NAS only.
 - Automation files go in `config/automations/` — all files in the dir are merged via `!include_dir_merge_list`.
 - Room-specific automations are shown in both the room view and the global Automations tab.
 - Vivax LED switch entity pattern: `switch.midea_ac_<device_id>_display`.

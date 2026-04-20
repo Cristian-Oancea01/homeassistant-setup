@@ -9,3 +9,4 @@ views:
   - !include lovelace/views/07_ventilation.yaml
   - !include lovelace/views/08_energy.yaml
   - !include lovelace/views/09_automations.yaml
+  - !include lovelace/views/10_office_2.yaml

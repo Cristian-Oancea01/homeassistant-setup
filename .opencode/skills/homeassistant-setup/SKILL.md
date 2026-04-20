@@ -7,18 +7,23 @@ compatibility: opencode
 
 ## Sensitive Data Policy
 
-### What counts as sensitive data
-- **Personal names** — any first name, surname, or nickname of a real person (e.g. room or device names that include a person's name).
-- **Location-specific labels** — street addresses, city names, country-specific terms, or any label that uniquely identifies where someone lives.
-- **Language-specific labels** — UI labels, entity names, automation aliases, or comments written in a non-English language (e.g. Romanian, French, Spanish).
+### What counts as sensitive data (NEVER commit)
+- **Personal names** — any first name, surname, or nickname of a real person, including room/device names containing a person's name.
+- **Location-specific labels** — street addresses, city names, or any label that uniquely identifies where someone lives.
+- **Language-specific labels** — any UI label, entity name, automation alias, card `name:`, or comment written in a non-English language (e.g. Romanian, French, Spanish).
+- **Real entity IDs** — actual entity IDs from a live HA installation. These belong in `AGENTS.local.md` on the NAS only.
 - **Credentials and tokens** — passwords, API keys, access tokens, OAuth secrets, IP addresses, MAC addresses, SSID names.
-- **Device serial numbers** used as human-readable names (numeric IDs embedded in entity names by integrations are acceptable as-is; avoid adding them to display labels).
 
-### Abstraction rules
-- All room names, light names, and device labels must be generic English (e.g. `Bedroom 1`, `Office 2`, `Island Light`, `Desk Lamp`).
-- Entity IDs exposed in config files must use generic patterns (e.g. `light.bedroom_1`, `climate.midea_ac_bedroom_1`) and be marked `# replace` where the real ID depends on the user's installation.
+### Where real data lives
+- Real entity IDs, room names, person names, and language-specific labels are stored in `AGENTS.local.md` on the NAS at `/share/Public/HomeAssistantConfig/AGENTS.local.md` — **never committed**.
+- The repo's `AGENTS.md` contains only generic English placeholders.
+
+### Abstraction rules for committed files
+- All room names, light names, card `name:` fields, tab `title:` fields, and device labels in committed YAML must be generic English (e.g. `Bedroom 1`, `Office 1`, `Shelf Upper`, `Desk Lamp`, `PC Light Bars`).
+- Entity IDs in all committed config/lovelace files must use generic placeholder patterns (e.g. `light.office_1_desk`) and be marked `# replace`.
 - Automation `alias` and `id` fields must be in English and must not reference personal names.
 - Never commit `config/secrets.yaml` — only `secrets.yaml.example` with placeholder values.
+- Before every commit: scan changed files for personal names, non-English words, and real entity IDs.
 
 ---
 
@@ -169,11 +174,12 @@ homeassistant-setup/
 │           ├── 02_living_room.yaml    # lights, AC, room automations
 │           ├── 03_dormitor_sus.yaml   # Bedroom 1: Vivax AC, LED toggle, lights
 │           ├── 04_dormitor_victor.yaml# Bedroom 2: Vivax AC, LED toggle, lights
-│           ├── 05_office.yaml         # Office 1 (Samsung AC), Office 2 (LG AC), lights
+│           ├── 05_office.yaml         # Office 1: desk setup, shelves, light groups
 │           ├── 06_other_rooms.yaml    # hallway/bathroom/staircase/dressing/storage
 │           ├── 07_ventilation.yaml    # Komfovent full control
 │           ├── 08_energy.yaml         # all consumption graphs + energy stats
-│           └── 09_automations.yaml    # global automation toggles
+│           ├── 09_automations.yaml    # global automation toggles
+│           └── 10_office_2.yaml       # Office 2: ceiling group + pendant
 └── scripts/
     ├── deploy.sh                   # rsync config to QNAP + restart HA
     └── validate.sh                 # YAML syntax check before deploy

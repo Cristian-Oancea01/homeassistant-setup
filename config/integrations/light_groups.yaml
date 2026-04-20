@@ -1,0 +1,24 @@
+# integrations/light_groups.yaml
+# HA light groups — allows controlling multiple lights as one entity.
+# Loaded via: light: !include integrations/light_groups.yaml
+#
+# Replace entity IDs with your real light entity IDs.
+# Real IDs for this installation: see AGENTS.local.md on the NAS (not committed).
+#
+# To manage groups via UI instead:
+#   Settings → Devices & Services → Helpers → Add Helper → Group → Light Group
+# See docs/managing-lights-and-groups.md for the full guide.
+
+- platform: group
+  name: "Office 1 Desk Setup"
+  unique_id: group_office_1_desk_setup
+  entities:
+    - light.office_1_desk       # replace
+    - light.office_1_pc_bars    # replace
+
+- platform: group
+  name: "Office 1 Shelves"
+  unique_id: group_office_1_shelves
+  entities:
+    - light.office_1_shelf_upper    # replace
+    - light.office_1_shelf_lower    # replace
