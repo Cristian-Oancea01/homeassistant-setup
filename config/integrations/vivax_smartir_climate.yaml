@@ -1,0 +1,21 @@
+# integrations/vivax_smartir_climate.yaml
+# Vivax AC via SmartIR + Broadlink IR blaster (Path B — fallback)
+#
+# Use this ONLY if the Vivax AC is not Tuya-based.
+# See README.md § Vivax AC for Path A (LocalTuya) instructions.
+#
+# To activate:
+#   1. Install SmartIR via HACS
+#   2. Download the Vivax IR code JSON to config/codes/climate/
+#   3. Uncomment the smartir: and climate: lines in configuration.yaml
+
+- platform: smartir
+  name: Vivax AC
+  unique_id: vivax_ac
+  # Find the correct device_code at:
+  # https://github.com/smartHomeHub/SmartIR/tree/master/codes/climate
+  # Look for Vivax or compatible Midea/GMCC codes
+  device_code: 1180
+  controller_data: remote.broadlink_rm4_pro    # replace with your Broadlink entity ID
+  temperature_sensor: sensor.living_room_temperature   # optional — remove if not available
+  humidity_sensor: sensor.living_room_humidity         # optional — remove if not available

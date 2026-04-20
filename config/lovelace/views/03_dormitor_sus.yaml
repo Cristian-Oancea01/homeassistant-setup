@@ -1,0 +1,86 @@
+# lovelace/views/03_bedroom_1.yaml
+# Bedroom 1 — Vivax AC (Midea LAN), LED toggle, lights, bedroom automations.
+
+title: Bedroom 1
+path: bedroom-1
+icon: mdi:bed-king
+
+cards:
+
+  # ── Climate ────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Climate
+
+  - type: custom:mushroom-climate-card
+    entity: climate.midea_ac_bedroom_1    # replace with your Midea AC entity ID
+    name: Vivax AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.midea_ac_bedroom_1_indoor_temperature    # replace
+        name: Room Temp
+        icon: mdi:thermometer
+        icon_color: orange
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.midea_ac_bedroom_1_outdoor_temperature    # replace
+        name: Outdoor Temp
+        icon: mdi:thermometer-chevron-up
+        icon_color: blue
+
+  # ── AC Display LED ─────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: AC Display
+
+  - type: custom:mushroom-entity-card
+    entity: switch.midea_ac_bedroom_1_display    # replace
+    name: AC LED Display
+    icon: mdi:led-on
+    icon_color: cyan
+
+  # ── Lights ─────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Lights
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.bedroom_1    # replace
+        name: Main
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.bedroom_1_bedside_1    # replace
+        name: Bedside 1
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.bedroom_1_bedside_2    # replace
+        name: Bedside 2
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+  # ── Room Automations ───────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Automations
+
+  - type: custom:mushroom-entity-card
+    entity: automation.ac_schedule_weekday_morning
+    name: Weekday Morning AC
+    icon: mdi:clock-outline

@@ -1,0 +1,68 @@
+# lovelace/views/04_bedroom_2.yaml
+# Bedroom 2 — Vivax AC (Midea LAN), LED toggle, lights, bedroom automations.
+
+title: Bedroom 2
+path: bedroom-2
+icon: mdi:bed
+
+cards:
+
+  # ── Climate ────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Climate
+
+  - type: custom:mushroom-climate-card
+    entity: climate.midea_ac_bedroom_2    # replace with your Midea AC entity ID
+    name: Vivax AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.midea_ac_bedroom_2_indoor_temperature    # replace
+        name: Room Temp
+        icon: mdi:thermometer
+        icon_color: orange
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.midea_ac_bedroom_2_outdoor_temperature    # replace
+        name: Outdoor Temp
+        icon: mdi:thermometer-chevron-up
+        icon_color: blue
+
+  # ── AC Display LED ─────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: AC Display
+
+  - type: custom:mushroom-entity-card
+    entity: switch.midea_ac_bedroom_2_display    # replace
+    name: AC LED Display
+    icon: mdi:led-on
+    icon_color: cyan
+
+  # ── Lights ─────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Lights
+
+  - type: custom:mushroom-light-card
+    entity: light.bedroom_2    # replace
+    name: Main
+    show_brightness_control: true
+    show_color_temp_control: true
+    collapsible_controls: true
+
+  # ── Room Automations ───────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Automations
+
+  - type: custom:mushroom-entity-card
+    entity: automation.ac_schedule_weekday_morning
+    name: Weekday Morning AC
+    icon: mdi:clock-outline

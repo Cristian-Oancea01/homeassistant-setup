@@ -1,0 +1,33 @@
+# automations/ventilation.yaml
+# Komfovent HRV automations: away mode, return home.
+# Note: humidity boost automation removed — no humidity sensor installed.
+
+- alias: konfortvent_away_mode
+  id: konfortvent_away_mode
+  description: Switch ventilation to away mode when nobody is home
+  trigger:
+    - platform: state
+      entity_id: group.all_people
+      to: "not_home"
+  action:
+    - service: select.select_option
+      target:
+        entity_id: select.komfovent_current_mode
+      data:
+        option: away
+  mode: single
+
+- alias: konfortvent_return_home
+  id: konfortvent_return_home
+  description: Restore normal ventilation when someone arrives home
+  trigger:
+    - platform: state
+      entity_id: group.all_people
+      to: "home"
+  action:
+    - service: select.select_option
+      target:
+        entity_id: select.komfovent_current_mode
+      data:
+        option: normal
+  mode: single

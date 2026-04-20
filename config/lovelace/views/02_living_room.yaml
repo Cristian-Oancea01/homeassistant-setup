@@ -1,0 +1,178 @@
+# lovelace/views/02_living_room.yaml
+# Living Room Upper + Kitchen (open plan), Living Room Lower, and LG AC.
+
+title: Living Room
+path: living-room
+icon: mdi:sofa
+
+cards:
+
+  # ══ LIVING ROOM UPPER + KITCHEN ════════════════════════════
+
+  - type: custom:mushroom-title-card
+    title: Living Room Upper & Kitchen
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.living_room_upper    # replace
+        name: Living Room Upper
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.kitchen    # replace
+        name: Kitchen
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_main    # replace
+        name: Living Room Main
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_island_lower    # replace
+        name: Island Lower
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_island_upper    # replace
+        name: Island Upper
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_table_lower    # replace
+        name: Table Lower
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_table_upper    # replace
+        name: Table Upper
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.living_room_tree    # replace (decorative tree light)
+        name: Tree
+        show_brightness_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+  - type: custom:mushroom-title-card
+    title: Spots
+
+  - type: grid
+    columns: 4
+    square: true
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.spot_living_1    # replace
+        name: Spot 1
+        show_brightness_control: true
+        collapsible_controls: true
+      - type: custom:mushroom-light-card
+        entity: light.spot_living_2    # replace
+        name: Spot 2
+        show_brightness_control: true
+        collapsible_controls: true
+      - type: custom:mushroom-light-card
+        entity: light.spot_living_3    # replace
+        name: Spot 3
+        show_brightness_control: true
+        collapsible_controls: true
+      - type: custom:mushroom-light-card
+        entity: light.spot_living_4    # replace
+        name: Spot 4
+        show_brightness_control: true
+        collapsible_controls: true
+
+  - type: custom:mushroom-title-card
+    title: TV & Ambient
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.tv_lights    # replace
+        name: TV Lights
+        show_brightness_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.tv_living    # replace
+        name: TV
+        show_brightness_control: true
+        collapsible_controls: true
+
+  # ══ LIVING ROOM LOWER ════════════════════════════════════════
+
+  - type: custom:mushroom-title-card
+    title: Living Room Lower
+
+  - type: custom:mushroom-light-card
+    entity: light.living_room_lower    # replace
+    name: Living Room Lower
+    show_brightness_control: true
+    show_color_temp_control: true
+    collapsible_controls: true
+
+  # ══ CLIMATE ═══════════════════════════════════════════════
+
+  - type: custom:mushroom-title-card
+    title: Climate
+
+  - type: custom:mushroom-climate-card
+    entity: climate.ac_living_room    # replace with your LG AC entity ID
+    name: LG AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  # ── Room Automations ───────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Automations
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_open_at_sunrise
+        name: Blinds at Sunrise
+        icon: mdi:weather-sunrise
+
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_close_at_sunset
+        name: Blinds at Sunset
+        icon: mdi:weather-sunset
+
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_close_on_heat
+        name: Heat Protection
+        icon: mdi:sun-thermometer
+
+      - type: custom:mushroom-entity-card
+        entity: automation.sunset_island_light
+        name: Sunset Island Light
+        icon: mdi:weather-sunset

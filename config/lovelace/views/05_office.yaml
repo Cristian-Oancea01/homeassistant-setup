@@ -1,0 +1,166 @@
+# lovelace/views/05_office.yaml
+# Two offices: Office 1 and Office 2.
+
+title: Office
+path: office
+icon: mdi:desk
+
+cards:
+
+  # ══ OFFICE 1 ══════════════════════════════════════════════
+
+  - type: custom:mushroom-title-card
+    title: Office 1
+
+  # Samsung AC
+  - type: custom:mushroom-climate-card
+    entity: climate.room_air_conditioner    # replace with your Samsung AC entity ID
+    name: Samsung AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_temperature    # replace
+        name: Room Temp
+        icon: mdi:thermometer
+        icon_color: orange
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_power    # replace
+        name: Power
+        icon: mdi:lightning-bolt
+        icon_color: yellow
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_energy    # replace
+        name: Energy
+        icon: mdi:meter-electric
+        icon_color: green
+
+  - type: custom:mushroom-title-card
+    title: Lights — Office 1
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.office_1    # replace
+        name: Office 1
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_b    # replace
+        name: Office 1 B
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_floor    # replace
+        name: Office 1 Floor
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_ceiling    # replace
+        name: Office 1 Ceiling
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_desk    # replace
+        name: Desk
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_ambient_1    # replace
+        name: Ambient 1
+        show_brightness_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_ambient_2    # replace
+        name: Ambient 2
+        show_brightness_control: true
+        show_color_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_1_display_cabinet    # replace
+        name: Display Cabinet
+        show_brightness_control: true
+        collapsible_controls: true
+
+  # ══ OFFICE 2 ══════════════════════════════════════════════
+
+  - type: custom:mushroom-title-card
+    title: Office 2
+
+  # LG AC
+  - type: custom:mushroom-climate-card
+    entity: climate.office_2_air_conditioner    # replace with your LG AC entity ID
+    name: LG AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: custom:mushroom-entity-card
+    entity: sensor.office_2_air_conditioner_energy_this_month    # replace
+    name: LG Energy This Month
+    icon: mdi:meter-electric
+    icon_color: green
+
+  - type: custom:mushroom-title-card
+    title: Lights — Office 2
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.office_2    # replace
+        name: Office 2
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_2_lamp    # replace
+        name: Lamp
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_2_pendant    # replace
+        name: Pendant
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.office_2_bookshelf    # replace
+        name: Bookshelf
+        show_brightness_control: true
+        collapsible_controls: true

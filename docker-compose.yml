@@ -1,0 +1,32 @@
+# ============================================================
+# docker-compose.yml
+# Home Assistant on QNAP Container Station
+#
+# Usage:
+#   1. Copy .env.example to .env and fill in your values
+#   2. Run:  docker compose up -d
+#
+# IMPORTANT: network_mode: host is required for local device
+# discovery (Hue mDNS, Govee LAN broadcast, IKEA DIRIGERA mDNS).
+# ============================================================
+
+version: "3.8"
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    volumes:
+      - ${HA_CONFIG_PATH:-/share/homeassistant/config}:/config
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    restart: unless-stopped
+    privileged: true
+    environment:
+      - TZ=${TZ:-UTC}                   # set TZ in .env (e.g. Europe/London, America/New_York)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123/api/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

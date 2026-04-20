@@ -1,0 +1,60 @@
+# lovelace/views/01_home.yaml
+# Home Overview — status chips, scene tiles, Komfovent summary, Good Night.
+
+title: Home
+path: home
+icon: mdi:home
+cards:
+
+  # ── Status chips row ───────────────────────────────────────
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: sensor.komfovent_outdoor_temperature
+        icon: mdi:thermometer
+      - type: template
+        icon: mdi:lightbulb
+        content: >
+          {{ states.light | selectattr('state','eq','on') | list | count }} on
+      - type: template
+        icon: mdi:air-conditioner
+        content: >
+          {{ states.climate | selectattr('state','ne','off') | list | count }} active
+      - type: entity
+        entity: select.komfovent_current_mode
+        icon: mdi:air-filter
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/ventilation
+      - type: template
+        icon: mdi:blinds
+        content: >
+          {{ states.cover | selectattr('state','eq','open') | list | count }} open
+
+  # ── Komfovent status ───────────────────────────────────────
+  - type: custom:mushroom-template-card
+    primary: "{{ states('sensor.komfovent_supply_temperature') }}°C supply air"
+    secondary: "Komfovent — {{ states('select.komfovent_current_mode') }} mode"
+    icon: mdi:air-filter
+    icon_color: >
+      {% if not is_state('climate.komfovent', 'off') %}blue{% else %}grey{% endif %}
+    tap_action:
+      action: navigate
+      navigation_path: /lovelace/ventilation
+
+  # ── Good Night button ──────────────────────────────────────
+  - type: custom:button-card
+    name: Good Night
+    icon: mdi:power-sleep
+    tap_action:
+      action: call-service
+      service: script.good_night
+    styles:
+      card:
+        - background: "linear-gradient(135deg, #0f0c29, #302b63)"
+        - border-radius: 16px
+        - margin-top: 8px
+      icon:
+        - color: white
+      name:
+        - color: white

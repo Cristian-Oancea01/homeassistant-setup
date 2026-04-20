@@ -1,0 +1,63 @@
+# automations/blinds.yaml
+# VELUX blind automations: sunrise open, sunset close, heat protection.
+#
+# Replace cover entity IDs with your actual VELUX cover.* entity IDs.
+
+- alias: blinds_open_at_sunrise
+  id: blinds_open_at_sunrise
+  description: Open VELUX blinds 30 min after sunrise (skip when vacation mode on)
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "+00:30:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "off"
+  action:
+    - service: cover.open_cover
+      target:
+        entity_id:
+          - cover.velux_living_room
+          - cover.velux_bedroom
+          - cover.velux_kitchen
+          - cover.velux_office
+  mode: single
+
+- alias: blinds_close_at_sunset
+  id: blinds_close_at_sunset
+  description: Close VELUX blinds at sunset
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "00:00:00"
+  action:
+    - service: cover.close_cover
+      target:
+        entity_id:
+          - cover.velux_living_room
+          - cover.velux_bedroom
+          - cover.velux_kitchen
+          - cover.velux_office
+  mode: single
+
+- alias: blinds_close_on_heat
+  id: blinds_close_on_heat
+  description: Partially close blinds during daytime when outdoor temp exceeds 28°C
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.komfovent_outdoor_temperature
+      above: 28
+  condition:
+    - condition: sun
+      after: sunrise
+      before: sunset
+  action:
+    - service: cover.set_cover_position
+      target:
+        entity_id:
+          - cover.velux_living_room
+          - cover.velux_kitchen
+      data:
+        position: 20
+  mode: single

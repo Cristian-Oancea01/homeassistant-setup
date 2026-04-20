@@ -1,0 +1,33 @@
+# integrations/google_assistant.yaml
+# Google Home — bidirectional integration (manual OAuth)
+#
+# Prerequisites:
+#   1. Public HTTPS endpoint configured (see README.md § HTTPS Setup)
+#   2. Google Cloud project created with HomeGraph API enabled
+#   3. Service account JSON downloaded to config/google_credentials.json
+#   4. Actions on Google project configured (Smart Home type)
+#
+# To disable this integration: remove this file from integrations/
+# and remove the google_assistant: !include line from configuration.yaml
+
+project_id: !secret google_project_id
+service_account: !include google_credentials.json
+report_state: true
+
+exposed_domains:
+  - light
+  - switch
+  - climate
+  - cover
+  - fan
+  - scene
+  - script
+
+# Add per-entity overrides here to rename or hide specific devices in Google Home.
+# entity_config:
+#   light.living_room:
+#     name: "Living Room Light"
+#     expose: true
+#   climate.samsung_ac:
+#     name: "Samsung AC"
+#     expose: true

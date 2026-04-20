@@ -1,0 +1,38 @@
+# automations/theme.yaml
+# Switch iOS theme between light (day) and dark (night) based on sun.
+
+- id: theme_light_at_sunrise
+  alias: "Theme: iOS Light at Sunrise"
+  trigger:
+    - platform: sun
+      event: sunrise
+  action:
+    - service: frontend.set_theme
+      data:
+        name: ios-dark-mode-dark-blue
+
+- id: theme_dark_at_sunset
+  alias: "Theme: iOS Dark at Sunset"
+  trigger:
+    - platform: sun
+      event: sunset
+  action:
+    - service: frontend.set_theme
+      data:
+        name: ios-dark-mode-blue-red
+
+# Apply correct theme immediately on HA start
+- id: theme_on_start
+  alias: "Theme: Apply on Start"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: frontend.set_theme
+      data:
+        name: >
+          {% if is_state('sun.sun', 'above_horizon') %}
+          ios-dark-mode-dark-blue
+          {% else %}
+          ios-dark-mode-blue-red
+          {% endif %}

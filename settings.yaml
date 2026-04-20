@@ -1,0 +1,110 @@
+# ============================================================
+# settings.yaml — Integration & Feature Toggles
+# ============================================================
+# Set enabled: true/false per integration to include or exclude it.
+# After changing this file, run: scripts/apply-config.sh
+# This generates the final configuration files from templates.
+# ============================================================
+
+integrations:
+  philips_hue:
+    enabled: true
+    description: "Local Hue Bridge — lights, sensors, scenes"
+
+  govee_lan:
+    enabled: true
+    description: "Govee local LAN control for LED strips and bulbs"
+
+  govee_cloud:
+    enabled: false
+    description: "Govee cloud API fallback (for devices without LAN support)"
+
+  ikea_dirigera:
+    enabled: true
+    description: "IKEA DIRIGERA hub — lights, plugs, sensors"
+
+  velux:
+    enabled: true
+    description: "VELUX cloud — blinds and windows"
+
+  samsung_smartthings:
+    enabled: true
+    description: "Samsung SmartThings — Samsung AC"
+
+  lg_thinq:
+    enabled: true
+    description: "LG ThinQ — LG AC"
+
+  vivax_midea_ac_lan:
+    enabled: true
+    description: "Vivax AC via Midea AC LAN (local, no cloud after setup)"
+
+  vivax_smartir:
+    enabled: false
+    description: "Vivax AC via SmartIR + Broadlink IR blaster (fallback, not used)"
+
+  google_home:
+    enabled: true
+    description: "Google Home bidirectional via manual OAuth"
+
+  konfortvent:
+    enabled: true
+    description: "Konfortvent HRV ventilation (already integrated — design only)"
+
+automations:
+  blinds_sunrise_sunset:
+    enabled: true
+    description: "Open blinds at sunrise, close at sunset"
+
+  blinds_heat_protection:
+    enabled: true
+    description: "Close blinds when outdoor temp exceeds 28°C"
+
+  motion_lights:
+    enabled: true
+    description: "Motion-activated lights with lux threshold"
+
+  ac_schedule:
+    enabled: true
+    description: "Weekday morning AC pre-conditioning"
+
+  ac_window_protection:
+    enabled: true
+    description: "Turn off AC when window left open 5+ min"
+
+  konfortvent_humidity_boost:
+    enabled: true
+    description: "Boost ventilation on high humidity"
+
+  konfortvent_presence:
+    enabled: true
+    description: "Switch to away/normal mode based on presence"
+
+  presence_welcome_home:
+    enabled: true
+    description: "Activate evening scene when arriving home after dark"
+
+  good_night_routine:
+    enabled: true
+    description: "Lights off, blinds closed, AC night mode at 23:00"
+
+dashboard:
+  views:
+    home_overview:
+      enabled: true
+    living_room:
+      enabled: true
+    dormitor_sus:
+      enabled: true
+    dormitor_victor:
+      enabled: true
+    office:
+      enabled: true
+    other_rooms:
+      enabled: true
+    ventilation:
+      enabled: true
+    energy:
+      enabled: true
+    automations:
+      enabled: true

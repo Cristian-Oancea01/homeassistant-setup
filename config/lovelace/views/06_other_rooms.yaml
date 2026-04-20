@@ -1,0 +1,99 @@
+# lovelace/views/06_other_rooms.yaml
+# Upper Hallway, Upper Bathroom, Staircase, Dressing Room, Storage Room, VELUX.
+
+title: Other Rooms
+path: other-rooms
+icon: mdi:home-floor-1
+
+cards:
+
+  # ── Upper Hallway ────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Upper Hallway
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.upper_hallway    # replace
+        name: Upper Hallway
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.upper_hallway_2    # replace
+        name: Upper Hallway 2
+        show_brightness_control: true
+        show_color_temp_control: true
+        collapsible_controls: true
+
+  # ── Upper Bathroom ───────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Upper Bathroom
+
+  - type: custom:mushroom-light-card
+    entity: light.upper_bathroom    # replace
+    name: Upper Bathroom
+    show_brightness_control: true
+    show_color_temp_control: true
+    collapsible_controls: true
+
+  # ── Staircase ──────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Staircase
+
+  - type: grid
+    columns: 3
+    square: true
+    cards:
+      - type: custom:mushroom-light-card
+        entity: light.staircase_main    # replace
+        name: Main
+        show_brightness_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.spot_staircase_1    # replace
+        name: Spot 1
+        show_brightness_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: light.spot_staircase_2    # replace
+        name: Spot 2
+        show_brightness_control: true
+        collapsible_controls: true
+
+  # ── Dressing Room ───────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Dressing Room
+
+  - type: custom:mushroom-light-card
+    entity: light.dressing_room    # replace
+    name: Dressing Room
+    show_brightness_control: true
+    show_color_temp_control: true
+    collapsible_controls: true
+
+  # ── Storage Room ─────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Storage Room
+
+  - type: custom:mushroom-light-card
+    entity: light.storage_room    # replace
+    name: Storage Room
+    show_brightness_control: true
+    show_color_temp_control: true
+    collapsible_controls: true
+
+  # ── VELUX ──────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: VELUX Blinds
+
+  - type: custom:mushroom-cover-card
+    entity: cover.all_velux_covers
+    name: All VELUX Covers
+    show_buttons_control: true
+    show_position_control: true

@@ -1,0 +1,11 @@
+# integrations/groups.yaml
+# Person and household groups used by presence automations.
+#
+# Replace person.resident_1 / person.resident_2 with your real
+# person.* entity IDs (Settings → People → click person → entity ID).
+
+all_people:
+  name: All People
+  entities:
+    - person.resident_1    # replace with your person.* entity ID
+    - person.resident_2    # replace with your person.* entity ID

@@ -1,0 +1,90 @@
+# lovelace/views/09_automations.yaml
+# Automations — global house-wide automation toggles.
+# Room-specific automations are also accessible from their respective room views.
+
+title: Automations
+path: automations
+icon: mdi:robot
+
+cards:
+
+  # ── Blinds ─────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Blinds
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_open_at_sunrise
+        name: Open at Sunrise
+        icon: mdi:weather-sunrise
+
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_close_at_sunset
+        name: Close at Sunset
+        icon: mdi:weather-sunset
+
+      - type: custom:mushroom-entity-card
+        entity: automation.blinds_close_on_heat
+        name: Heat Protection
+        icon: mdi:sun-thermometer
+
+  # ── Climate ────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Climate
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: automation.ac_schedule_weekday_morning
+        name: Bedroom AC Morning
+        icon: mdi:clock-outline
+
+      - type: custom:mushroom-entity-card
+        entity: automation.ac_off_when_window_open
+        name: AC Window Guard
+        icon: mdi:window-open
+
+  # ── Ventilation ────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Ventilation
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: automation.konfortvent_away_mode
+        name: Away Mode
+        icon: mdi:home-export-outline
+
+      - type: custom:mushroom-entity-card
+        entity: automation.konfortvent_return_home
+        name: Return Home
+        icon: mdi:home-import-outline
+
+  # ── Lighting ───────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Lighting
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: automation.sunset_island_light
+        name: Sunset Island Light
+        icon: mdi:weather-sunset
+
+  # ── House Routines ─────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: House Routines
+
+  - type: custom:mushroom-entity-card
+    entity: automation.good_night_routine
+    name: Good Night Routine
+    icon: mdi:power-sleep

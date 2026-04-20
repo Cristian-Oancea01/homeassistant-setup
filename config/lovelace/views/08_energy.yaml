@@ -1,0 +1,137 @@
+# lovelace/views/08_energy.yaml
+# Energy — all consumption graphs and energy stats across all devices.
+
+title: Energy
+path: energy
+icon: mdi:lightning-bolt
+
+cards:
+
+  # ── Current Power ──────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Current Power
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_power    # replace
+        name: Samsung AC
+        icon: mdi:air-conditioner
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_power_consumption
+        name: HRV
+        icon: mdi:air-filter
+        icon_color: green
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_heater_power
+        name: HRV Heater
+        icon: mdi:heat-wave
+        icon_color: orange
+
+  - type: custom:mini-graph-card
+    name: Power History (24h)
+    entities:
+      - entity: sensor.room_air_conditioner_power    # replace
+        name: Samsung AC
+        color: "#4a90d9"
+      - entity: sensor.komfovent_power_consumption
+        name: HRV
+        color: "#7ed321"
+      - entity: sensor.komfovent_heater_power
+        name: HRV Heater
+        color: "#e05020"
+    hours_to_show: 24
+    points_per_hour: 2
+    line_width: 2
+    smoothing: true
+    show:
+      labels: true
+      legend: true
+
+  # ── Energy This Month ──────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Energy This Month
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_energy    # replace
+        name: Samsung AC
+        icon: mdi:air-conditioner
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_room_energy_this_month    # replace
+        name: LG AC Living
+        icon: mdi:air-conditioner
+        icon_color: purple
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.office_2_air_conditioner_energy_this_month    # replace
+        name: LG AC Office
+        icon: mdi:air-conditioner
+        icon_color: purple
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.komfovent_total_ahu_energy
+        name: HRV Total
+        icon: mdi:air-filter
+        icon_color: green
+
+  # ── LG AC Living — Monthly Breakdown ──────────────────────
+  - type: custom:mushroom-title-card
+    title: LG AC Living — Monthly Breakdown
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_room_energy_yesterday    # replace
+        name: Yesterday
+        icon: mdi:calendar-today
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_room_energy_this_month    # replace
+        name: This Month
+        icon: mdi:calendar-month
+        icon_color: blue
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.ac_living_room_energy_last_month    # replace
+        name: Last Month
+        icon: mdi:calendar-arrow-left
+        icon_color: grey
+
+  # ── HRV Lifetime Totals ────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: HRV Lifetime Totals
+
+  - type: entities
+    entities:
+      - entity: sensor.komfovent_total_ahu_energy
+        name: Total AHU energy (lifetime)
+      - entity: sensor.komfovent_total_heater_energy
+        name: Total heater energy (lifetime)
+      - entity: sensor.komfovent_total_recovered_energy
+        name: Total recovered energy (lifetime)
+
+  # ── HRV Power History ──────────────────────────────────────
+  - type: custom:mini-graph-card
+    name: HRV Power (6h)
+    entities:
+      - entity: sensor.komfovent_power_consumption
+        name: AHU power
+        color: "#e8a020"
+      - entity: sensor.komfovent_heater_power
+        name: Heater power
+        color: "#e05020"
+    hours_to_show: 6
+    points_per_hour: 4
+    line_width: 2
+    smoothing: true
+    show:
+      labels: true
+      legend: true

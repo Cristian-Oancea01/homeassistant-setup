@@ -1,0 +1,88 @@
+# automations/climate.yaml
+# AC automations: weekday morning schedule, window protection, good night routine.
+
+- alias: ac_schedule_weekday_morning
+  id: ac_schedule_weekday_morning
+  description: Pre-condition bedroom ACs on weekday mornings at 06:30
+  trigger:
+    - platform: time
+      at: "06:30:00"
+  condition:
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id:
+          - climate.midea_ac_bedroom_1    # replace with your Midea AC entity ID
+          - climate.midea_ac_bedroom_2    # replace with your Midea AC entity ID
+      data:
+        temperature: 22
+        hvac_mode: >
+          {% if states('sensor.komfovent_outdoor_temperature') | float(default=15) > 20 %}
+            cool
+          {% else %}
+            heat
+          {% endif %}
+  mode: single
+
+- alias: ac_off_when_window_open
+  id: ac_off_when_window_open
+  description: Turn off Samsung AC if living room window left open for 5+ minutes
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_window    # replace with your window sensor
+      to: "on"
+      for:
+        minutes: 5
+  condition:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: climate.samsung_ac    # replace with your Samsung AC entity ID
+          state: "off"
+  action:
+    - service: climate.turn_off
+      target:
+        entity_id: climate.samsung_ac    # replace with your Samsung AC entity ID
+  mode: single
+
+- alias: good_night_routine
+  id: good_night_routine
+  description: Lights off, blinds closed, AC to night temperature at 23:00
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  action:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.night
+    - service: cover.close_cover
+      target:
+        entity_id:
+          - cover.velux_living_room    # replace with your cover entity IDs
+          - cover.velux_bedroom
+          - cover.velux_kitchen
+          - cover.velux_office
+    - service: climate.set_temperature
+      target:
+        entity_id:
+          - climate.samsung_ac          # replace with your AC entity IDs
+          - climate.lg_ac_living_room
+          - climate.lg_ac_office
+          - climate.midea_ac_bedroom_1
+          - climate.midea_ac_bedroom_2
+      data:
+        temperature: 20
+        hvac_mode: >
+          {% if states('sensor.komfovent_outdoor_temperature') | float(default=15) > 18 %}
+            cool
+          {% else %}
+            "off"
+          {% endif %}
+  mode: single
