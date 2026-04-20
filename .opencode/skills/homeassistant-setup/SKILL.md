@@ -27,6 +27,29 @@ compatibility: opencode
 
 ---
 
+## NAS vs Repo — CRITICAL RULE
+
+**NEVER copy files from the repo to the NAS without explicit user instruction to do so.**
+
+The repo contains **generic placeholder files**. The NAS contains **working production files** with real entity IDs, real names, and real config. They are intentionally different.
+
+### The two separate worlds
+
+| Repo (`homeassistant-setup/config/`) | NAS (`/share/Public/HomeAssistantConfig/`) |
+|--------------------------------------|---------------------------------------------|
+| Generic English placeholders | Real entity IDs, Romanian labels, real names |
+| `# replace` markers | Fully working, deployed config |
+| Safe to commit publicly | Never committed — private |
+
+### Rules
+- **NEVER overwrite NAS files with repo files** — the repo files are templates, not deployable config.
+- When asked to "deploy" or "sync": only copy **new files** that don't already exist on the NAS, and only after reading `AGENTS.local.md` to substitute all placeholder entity IDs with real ones first.
+- When asked to make a change to the dashboard or config: edit the NAS file directly (via SMB or SSH), using real entity IDs from `AGENTS.local.md`. Then separately update the repo file with the equivalent generic version.
+- Always read the existing NAS file before modifying it — never assume it matches the repo.
+- If unsure whether a NAS file already has working content, **read it first**, do not overwrite.
+
+---
+
 ## Access
 
 - SSH: `ssh <qnap-user>@<nas-ip>`
