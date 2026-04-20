@@ -8,7 +8,41 @@ icon: mdi:desk
 
 cards:
 
-  # ══ LUMINI ════════════════════════════════════════════════════
+  # ══ AC ════════════════════════════════════════════════════════
+
+  - type: custom:mushroom-climate-card
+    entity: climate.room_air_conditioner    # replace — Samsung AC
+    name: AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_temperature    # replace
+        name: Temperature
+        icon: mdi:thermometer
+        icon_color: orange
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_power    # replace
+        name: Power
+        icon: mdi:lightning-bolt
+        icon_color: yellow
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.room_air_conditioner_energy    # replace
+        name: Energy
+        icon: mdi:meter-electric
+        icon_color: green
+
+  # ══ LIGHTS ════════════════════════════════════════════════════
 
   - type: custom:mushroom-title-card
     title: Lights

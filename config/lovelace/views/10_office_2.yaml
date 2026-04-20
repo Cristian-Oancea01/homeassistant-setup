@@ -8,6 +8,28 @@ icon: mdi:desk
 
 cards:
 
+  # ══ AC ════════════════════════════════════════════════════════
+
+  - type: custom:mushroom-climate-card
+    entity: climate.office_2_air_conditioner    # replace — LG AC
+    name: AC
+    show_temperature_control: true
+    hvac_modes:
+      - "off"
+      - cool
+      - heat
+      - fan_only
+      - dry
+      - auto
+
+  - type: custom:mushroom-entity-card
+    entity: sensor.office_2_air_conditioner_energy_this_month    # replace
+    name: Energy This Month
+    icon: mdi:meter-electric
+    icon_color: green
+
+  # ══ LIGHTS ════════════════════════════════════════════════════
+
   - type: custom:mushroom-title-card
     title: Lights
 

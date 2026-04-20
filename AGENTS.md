@@ -80,12 +80,12 @@ Tab order and file mapping in `config/lovelace/views/`:
 - **02 Living Room** — lights (upper/kitchen, main, islands ×2, table ×2, spots ×4, TV), LG AC, room automations (blinds sunrise/sunset/heat, sunset island light).
 - **03 Bedroom 1** — Vivax AC (Midea LAN) + temps, LED display toggle, bedroom lights (main, bedside ×2), weekday morning AC automation toggle.
 - **04 Bedroom 2** — Vivax AC (Midea LAN) + temps, LED display toggle, room light, weekday morning AC automation toggle.
-- **05 Office 1** — main ceiling light, display cabinet/shelf light, shelf lightstrips (upper/lower), desk lamp, PC light bars. Two YAML light groups: desk setup group and shelf group.
+- **05 Office 1** — Samsung AC (climate card + power/energy sensors), ceiling light, display cabinet/shelf light, shelf lightstrips (upper/lower), desk lamp, PC light bars. Two YAML light groups: desk setup group and shelf group.
 - **06 Other Rooms** — Upper Hallway (lights ×2), Upper Bathroom (light), Staircase (main + spots ×2), Dressing Room, Storage Room, VELUX blinds.
 - **07 Ventilation** — Komfovent full control: climate card, mode buttons (Normal/Boost/Away), temperature sensors + graph, power + energy graphs, lifetime totals.
 - **08 Energy** — all consumption graphs and energy stats: Samsung AC power/energy, LG AC energy (yesterday/month/last month), HRV power + graphs, monthly summary across all ACs.
 - **09 Automations** — global house automations (blinds sunrise/sunset/heat, ventilation away/return, good night routine, AC morning schedule, sunset island light).
-- **10 Office 2** — second office: ceiling light and pendant lamp.
+- **10 Office 2** — LG AC (climate card + energy this month), ceiling light and pendant lamp.
 
 ---
 
