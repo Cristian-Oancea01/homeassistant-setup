@@ -9,13 +9,15 @@ compatibility: opencode
 
 ### What counts as sensitive data (NEVER commit)
 - **Personal names** — any first name, surname, or nickname of a real person, including room/device names containing a person's name.
+- **Any non-English language** — any word, label, name, comment, or string in any language other than English. This includes (but is not limited to) Romanian, French, Spanish, German, etc. If it's not English, it's sensitive.
 - **Location-specific labels** — street addresses, city names, or any label that uniquely identifies where someone lives.
-- **Language-specific labels** — any UI label, entity name, automation alias, card `name:`, or comment written in a non-English language (e.g. Romanian, French, Spanish).
 - **Real entity IDs** — actual entity IDs from a live HA installation. These belong in `AGENTS.local.md` on the NAS only.
 - **Credentials and tokens** — passwords, API keys, access tokens, OAuth secrets, IP addresses, MAC addresses, SSID names.
+- **NAS paths** — the actual filesystem paths on the NAS (e.g. the HA config directory path). Reference these generically (e.g. `<ha-config-path>`) in committed files.
+- **NAS hostnames and IPs** — the NAS hostname, local IP address, or any network identifier.
 
 ### Where real data lives
-- Real entity IDs, room names, person names, and language-specific labels are stored in `AGENTS.local.md` on the NAS at `/share/Public/HomeAssistantConfig/AGENTS.local.md` — **never committed**.
+- Real entity IDs, room names, person names, non-English labels, and NAS-specific paths are stored in `AGENTS.local.md` on the NAS — **never committed**.
 - The repo's `AGENTS.md` contains only generic English placeholders.
 
 ### Abstraction rules for committed files
@@ -23,7 +25,7 @@ compatibility: opencode
 - Entity IDs in all committed config/lovelace files must use generic placeholder patterns (e.g. `light.office_1_desk`) and be marked `# replace`.
 - Automation `alias` and `id` fields must be in English and must not reference personal names.
 - Never commit `config/secrets.yaml` — only `secrets.yaml.example` with placeholder values.
-- Before every commit: scan changed files for personal names, non-English words, and real entity IDs.
+- Before every commit: scan every changed file for personal names, non-English words, real entity IDs, NAS paths, and IP addresses. If any are found, replace with generic placeholders before committing.
 
 ---
 
@@ -35,9 +37,9 @@ The repo contains **generic placeholder files**. The NAS contains **working prod
 
 ### The two separate worlds
 
-| Repo (`homeassistant-setup/config/`) | NAS (`/share/Public/HomeAssistantConfig/`) |
+| Repo (`homeassistant-setup/config/`) | NAS (`<ha-config-path>`) |
 |--------------------------------------|---------------------------------------------|
-| Generic English placeholders | Real entity IDs, Romanian labels, real names |
+| Generic English placeholders | Real entity IDs, native-language labels, real names |
 | `# replace` markers | Fully working, deployed config |
 | Safe to commit publicly | Never committed — private |
 
@@ -53,11 +55,10 @@ The repo contains **generic placeholder files**. The NAS contains **working prod
 ## Access
 
 - SSH: `ssh <qnap-user>@<nas-ip>`
-- Docker binary: `/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker`
+- Docker binary: `<docker-binary-path>` (read from `AGENTS.local.md`)
 - HA container name: `home-assistant` (not `homeassistant`)
-- HA config path on NAS (host): `/share/Public/HomeAssistantConfig/`
+- HA config path on NAS (host): stored in `AGENTS.local.md` — **never committed**
 - HA config path inside container: `/config/`
-- Container volume mount: `/share/Public/HomeAssistantConfig` → `/config`
 - **`ui-lovelace.yaml` lives at `/config/ui-lovelace.yaml` (root), NOT `/config/lovelace/ui-lovelace.yaml`**
 - Credentials: stored locally in a secrets file — **never commit**
 
@@ -73,17 +74,15 @@ The repo contains **generic placeholder files**. The NAS contains **working prod
 
 ### Container restart
 ```bash
-ssh <qnap-user>@<nas-ip> \
-  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker restart homeassistant"
+ssh <qnap-user>@<nas-ip> "<docker-binary-path> restart home-assistant"
 # Wait ~45s, then check logs:
-ssh <qnap-user>@<nas-ip> \
-  "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker logs --tail 10 homeassistant 2>&1"
+ssh <qnap-user>@<nas-ip> "<docker-binary-path> logs --tail 10 home-assistant 2>&1"
 ```
 
 ### Custom cards not loading ("configuration error" on every card)
 Three causes found:
 1. `resources: []` in `configuration.yaml` blanks out all card JS — remove it
-2. `lovelace_dashboards` mode set to `storage` — patch with `sed -i s/storage/yaml/ /share/Public/HomeAssistantConfig/.storage/lovelace_dashboards` (stop container first)
+2. `lovelace_dashboards` mode set to `storage` — patch with `sed -i s/storage/yaml/ <ha-config-path>/.storage/lovelace_dashboards` (stop container first)
 3. Adding `resources:` block to `configuration.yaml` or `ui-lovelace.yaml` **conflicts with HACS** — HACS manages resources via `.storage/lovelace_resources` with `?hacstag=` cache params. Do NOT declare resources in yaml. Leave `lovelace_resources` storage file alone; HACS updates it automatically.
 
 ### Mushroom cards
@@ -162,7 +161,7 @@ Use `sensor.komfovent_outdoor_temperature` if you have Komfovent — no separate
 ### Verifying real entity IDs
 ```bash
 # List all entities of a domain from registry
-ssh <qnap-user>@<nas-ip> "docker exec homeassistant grep -o 'sensor.komfovent[a-z_]*' /config/.storage/core.entity_registry | sort -u"
+ssh <qnap-user>@<nas-ip> "<docker-binary-path> exec home-assistant grep -o 'sensor.komfovent[a-z_]*' /config/.storage/core.entity_registry | sort -u"
 ```
 
 ## File structure

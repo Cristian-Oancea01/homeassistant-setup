@@ -5,7 +5,7 @@ It documents the full project structure, dashboard layout, and conventions.
 Update this file whenever the project structure, views, or entities change.
 
 **Private entity mappings** (real names, room labels, entity IDs specific to this installation)
-are stored on the NAS at `/share/Public/HomeAssistantConfig/AGENTS.local.md` — never committed.
+are stored in `AGENTS.local.md` on the NAS — never committed.
 
 ---
 
