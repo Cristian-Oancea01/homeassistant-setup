@@ -1,5 +1,5 @@
 # lovelace/views/01_home.yaml
-# Home Overview — status chips, Komfovent summary, quick access.
+# Home Overview — presence, house status, ventilation, quick access.
 
 title: Home
 path: home
@@ -30,6 +30,71 @@ cards:
         icon: mdi:blinds
         content: >
           {{ states.cover | selectattr('state','eq','open') | list | count }} open
+
+  # ── Presence ────────────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Presence
+
+  - type: custom:mushroom-template-card
+    primary: >
+      {% set home = expand('group.all_people') | selectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+      {% if home | length == 0 %}
+        Nobody is home
+      {% elif home | length == 1 %}
+        {{ home[0] }} is home
+      {% else %}
+        {{ home | join(' and ') }} are home
+      {% endif %}
+    secondary: >
+      {% set away = expand('group.all_people') | rejectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+      {% if away | length == 0 %}
+        Everyone is home
+      {% elif away | length == 1 %}
+        Away: {{ away[0] }}
+      {% else %}
+        Away: {{ away | join(', ') }}
+      {% endif %}
+    icon: mdi:home-account
+    icon_color: >
+      {% if expand('group.all_people') | selectattr('state', 'eq', 'home') | list | count > 0 %}green{% else %}grey{% endif %}
+
+  # ── House Summary ───────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: House Summary
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Lights On
+        secondary: >
+          {{ states.light | selectattr('state','eq','on') | list | count }} active now
+        icon: mdi:lightbulb-group
+        icon_color: >
+          {% if (states.light | selectattr('state','eq','on') | list | count) > 0 %}amber{% else %}grey{% endif %}
+
+      - type: custom:mushroom-template-card
+        primary: Climate
+        secondary: >
+          {{ states.climate | selectattr('state','ne','off') | list | count }} units running
+        icon: mdi:air-conditioner
+        icon_color: >
+          {% if (states.climate | selectattr('state','ne','off') | list | count) > 0 %}blue{% else %}grey{% endif %}
+
+      - type: custom:mushroom-template-card
+        primary: Blinds
+        secondary: >
+          {{ states.cover | selectattr('state','eq','open') | list | count }} open now
+        icon: mdi:blinds-open
+        icon_color: >
+          {% if (states.cover | selectattr('state','eq','open') | list | count) > 0 %}orange{% else %}grey{% endif %}
+
+      - type: custom:mushroom-template-card
+        primary: Outdoor
+        secondary: "{{ states('sensor.komfovent_outdoor_temperature') }}°C"
+        icon: mdi:thermometer-chevron-up
+        icon_color: teal
 
   # ── Komfovent status ───────────────────────────────────────
   - type: custom:mushroom-template-card

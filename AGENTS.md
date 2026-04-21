@@ -76,7 +76,7 @@ Tab order and file mapping in `config/lovelace/views/`:
 
 ### View contents summary
 
-- **01 Home** — status chips (outdoor temp, lights on, ACs active, ventilation mode, blinds open), Komfovent summary, quick access cards for key rooms and automations.
+- **01 Home** — status chips, presence summary, house summary cards, Komfovent summary, quick access cards for key rooms and automations.
 - **02 Living Room** — lights (upper/kitchen, main, islands ×2, table ×2, spots ×4, TV), LG AC, room automations (blinds sunrise/sunset/heat, sunset island light).
 - **03 Bedroom 1** — Vivax AC (Midea LAN) + temps, LED display toggle, bedroom lights (main, bedside ×2), weekday morning AC automation toggle.
 - **04 Bedroom 2** — Vivax AC (Midea LAN) + temps, LED display toggle, room light, weekday morning AC automation toggle.
