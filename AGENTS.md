@@ -67,16 +67,16 @@ Tab order and file mapping in `config/lovelace/views/`:
 | 02 | `02_living_room.yaml` | Living Room | `living-room` | `mdi:sofa` |
 | 03 | `03_dormitor_sus.yaml` | Bedroom 1 | `bedroom-1` | `mdi:bed-king` |
 | 04 | `04_dormitor_victor.yaml` | Bedroom 2 | `bedroom-2` | `mdi:bed` |
-| 05 | `05_office.yaml` | Office 1 | `office` | `mdi:desk` |
+| 05 | `05_office.yaml` | Office 1 | `office` | `mdi:desktop-classic` |
+| 10 | `10_office_2.yaml` | Office 2 | `office-2` | `mdi:laptop` |
 | 06 | `06_other_rooms.yaml` | Other Rooms | `other-rooms` | `mdi:home-floor-1` |
 | 07 | `07_ventilation.yaml` | Ventilation | `ventilation` | `mdi:air-filter` |
 | 08 | `08_energy.yaml` | Energy | `energy` | `mdi:lightning-bolt` |
 | 09 | `09_automations.yaml` | Automations | `automations` | `mdi:robot` |
-| 10 | `10_office_2.yaml` | Office 2 | `office-2` | `mdi:desk` |
 
 ### View contents summary
 
-- **01 Home** — status chips (outdoor temp, lights on, ACs active, ventilation mode, blinds open), scene tiles (Morning/Movie/Evening/Night), Komfovent summary, Good Night button.
+- **01 Home** — status chips (outdoor temp, lights on, ACs active, ventilation mode, blinds open), Komfovent summary, quick access cards for key rooms and automations.
 - **02 Living Room** — lights (upper/kitchen, main, islands ×2, table ×2, spots ×4, TV), LG AC, room automations (blinds sunrise/sunset/heat, sunset island light).
 - **03 Bedroom 1** — Vivax AC (Midea LAN) + temps, LED display toggle, bedroom lights (main, bedside ×2), weekday morning AC automation toggle.
 - **04 Bedroom 2** — Vivax AC (Midea LAN) + temps, LED display toggle, room light, weekday morning AC automation toggle.
@@ -84,7 +84,7 @@ Tab order and file mapping in `config/lovelace/views/`:
 - **06 Other Rooms** — Upper Hallway (lights ×2), Upper Bathroom (light), Staircase (main + spots ×2), Dressing Room, Storage Room, VELUX blinds.
 - **07 Ventilation** — Komfovent full control: climate card, mode buttons (Normal/Boost/Away), temperature sensors + graph, power + energy graphs, lifetime totals.
 - **08 Energy** — all consumption graphs and energy stats: Samsung AC power/energy, LG AC energy (yesterday/month/last month), HRV power + graphs, monthly summary across all ACs.
-- **09 Automations** — global house automations (blinds sunrise/sunset/heat, ventilation away/return, good night routine, AC morning schedule, sunset island light).
+- **09 Automations** — global house automations (blinds sunrise/sunset/heat, ventilation away/return, AC morning schedule, sunset island light).
 - **10 Office 2** — LG AC (climate card + energy this month), ceiling light and pendant lamp.
 
 ---

@@ -5,8 +5,8 @@ views:
   - !include lovelace/views/03_dormitor_sus.yaml
   - !include lovelace/views/04_dormitor_victor.yaml
   - !include lovelace/views/05_office.yaml
+  - !include lovelace/views/10_office_2.yaml
   - !include lovelace/views/06_other_rooms.yaml
   - !include lovelace/views/07_ventilation.yaml
   - !include lovelace/views/08_energy.yaml
   - !include lovelace/views/09_automations.yaml
-  - !include lovelace/views/10_office_2.yaml

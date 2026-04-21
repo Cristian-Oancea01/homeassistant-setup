@@ -79,12 +79,3 @@ cards:
         entity: automation.sunset_island_light
         name: Sunset Island Light
         icon: mdi:weather-sunset
-
-  # ── House Routines ─────────────────────────────────────────
-  - type: custom:mushroom-title-card
-    title: House Routines
-
-  - type: custom:mushroom-entity-card
-    entity: automation.good_night_routine
-    name: Good Night Routine
-    icon: mdi:power-sleep

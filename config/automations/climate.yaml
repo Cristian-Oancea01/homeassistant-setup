@@ -59,22 +59,15 @@
     - platform: time
       at: "23:00:00"
   action:
-    - service: scene.turn_on
-      target:
-        entity_id: scene.night
     - service: cover.close_cover
       target:
-        entity_id:
-          - cover.velux_living_room    # replace with your cover entity IDs
-          - cover.velux_bedroom
-          - cover.velux_kitchen
-          - cover.velux_office
+        entity_id: cover.all_velux_covers    # replace with your grouped blind entity ID
     - service: climate.set_temperature
       target:
         entity_id:
           - climate.samsung_ac          # replace with your AC entity IDs
-          - climate.lg_ac_living_room
-          - climate.lg_ac_office
+          - climate.ac_living_room
+          - climate.office_2_air_conditioner
           - climate.midea_ac_bedroom_1
           - climate.midea_ac_bedroom_2
       data:

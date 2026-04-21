@@ -1,5 +1,5 @@
 # lovelace/views/01_home.yaml
-# Home Overview — status chips, scene tiles, Komfovent summary, Good Night.
+# Home Overview — status chips, Komfovent summary, quick access.
 
 title: Home
 path: home
@@ -42,19 +42,42 @@ cards:
       action: navigate
       navigation_path: /lovelace/ventilation
 
-  # ── Good Night button ──────────────────────────────────────
-  - type: custom:button-card
-    name: Good Night
-    icon: mdi:power-sleep
-    tap_action:
-      action: call-service
-      service: script.good_night
-    styles:
-      card:
-        - background: "linear-gradient(135deg, #0f0c29, #302b63)"
-        - border-radius: 16px
-        - margin-top: 8px
-      icon:
-        - color: white
-      name:
-        - color: white
+  # ── Quick Access ───────────────────────────────────────────
+  - type: custom:mushroom-title-card
+    title: Quick Access
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Living Room
+        secondary: Lights and climate
+        icon: mdi:sofa
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/living-room
+
+      - type: custom:mushroom-template-card
+        primary: Office 1
+        secondary: Samsung AC and desk setup
+        icon: mdi:desktop-classic
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/office
+
+      - type: custom:mushroom-template-card
+        primary: Office 2
+        secondary: LG AC and lights
+        icon: mdi:laptop
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/office-2
+
+      - type: custom:mushroom-template-card
+        primary: Automations
+        secondary: Blinds, AC, and ventilation
+        icon: mdi:robot
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/automations
